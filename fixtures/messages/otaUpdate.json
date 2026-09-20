@@ -1,0 +1,31 @@
+{
+  "description": "HTTP only. Announces an upload of a firmware image.",
+  "op": "otaUpdate",
+  "transport": [
+    "http"
+  ],
+  "request": {
+    "id": 7,
+    "op": "otaUpdate",
+    "arg": {
+      "totalBytes": 1048576,
+      "crc32": "0a1b2c3d"
+    }
+  },
+  "responseOk": {
+    "id": 7,
+    "ok": true,
+    "result": {
+      "transferId": 9,
+      "totalBytes": 1048576
+    }
+  },
+  "responseError": {
+    "id": 7,
+    "ok": false,
+    "error": {
+      "code": "badRequest",
+      "message": "image larger than app partition"
+    }
+  }
+}

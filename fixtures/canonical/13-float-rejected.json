@@ -1,0 +1,10 @@
+{
+  "description": "A float anywhere makes the value non-canonical; the serialiser fails instead of producing output.",
+  "input": {
+    "angle": 25,
+    "x": 1.5
+  },
+  "canonical": null,
+  "crc32": null,
+  "error": "notCanonical"
+}

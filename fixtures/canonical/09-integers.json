@@ -1,0 +1,12 @@
+{
+  "description": "Integers in plain decimal: zero as 0, negatives with '-', no leading zeros, no exponent, no fraction.",
+  "input": {
+    "zero": 0,
+    "neg": -7,
+    "big": 2147483647,
+    "small": -2147483648,
+    "angle": 70
+  },
+  "canonical": "{\"angle\":70,\"big\":2147483647,\"neg\":-7,\"small\":-2147483648,\"zero\":0}",
+  "crc32": "b0ed8730"
+}

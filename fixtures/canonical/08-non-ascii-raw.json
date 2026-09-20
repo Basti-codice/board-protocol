@@ -1,0 +1,8 @@
+{
+  "description": "Non-ASCII is written as raw UTF-8, never escaped, including characters outside the BMP (no surrogate pairs).",
+  "input": {
+    "s": "Überhang €5 🧗 日本"
+  },
+  "canonical": "{\"s\":\"Überhang €5 🧗 日本\"}",
+  "crc32": "69814924"
+}

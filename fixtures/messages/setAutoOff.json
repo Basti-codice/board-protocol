@@ -1,0 +1,29 @@
+{
+  "description": "Auto-off timer in minutes, 0 disables.",
+  "op": "setAutoOff",
+  "transport": [
+    "ble"
+  ],
+  "request": {
+    "id": 7,
+    "op": "setAutoOff",
+    "arg": {
+      "minutes": 30
+    }
+  },
+  "responseOk": {
+    "id": 7,
+    "ok": true,
+    "result": {
+      "minutes": 30
+    }
+  },
+  "responseError": {
+    "id": 7,
+    "ok": false,
+    "error": {
+      "code": "badRequest",
+      "message": "minutes 500 out of range 0-240"
+    }
+  }
+}

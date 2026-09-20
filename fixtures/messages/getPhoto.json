@@ -1,0 +1,30 @@
+{
+  "description": "Announces a download of photo.jpg.",
+  "op": "getPhoto",
+  "transport": [
+    "ble",
+    "http"
+  ],
+  "request": {
+    "id": 7,
+    "op": "getPhoto"
+  },
+  "responseOk": {
+    "id": 7,
+    "ok": true,
+    "result": {
+      "transferId": 6,
+      "totalBytes": 384102,
+      "chunkSize": 510,
+      "crc32": "c0ffee42"
+    }
+  },
+  "responseError": {
+    "id": 7,
+    "ok": false,
+    "error": {
+      "code": "notFound",
+      "message": "no photo"
+    }
+  }
+}

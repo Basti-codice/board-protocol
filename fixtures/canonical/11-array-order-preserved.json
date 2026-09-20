@@ -1,0 +1,15 @@
+{
+  "description": "Arrays keep their order; they are never sorted.",
+  "input": {
+    "a": [
+      3,
+      1,
+      2,
+      "b",
+      "a",
+      null
+    ]
+  },
+  "canonical": "{\"a\":[3,1,2,\"b\",\"a\",null]}",
+  "crc32": "bc94462d"
+}

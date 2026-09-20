@@ -1,0 +1,28 @@
+{
+  "description": "Starts the setup access point; the BLE link drops after the response.",
+  "op": "startSetupAp",
+  "transport": [
+    "ble"
+  ],
+  "request": {
+    "id": 7,
+    "op": "startSetupAp"
+  },
+  "responseOk": {
+    "id": 7,
+    "ok": true,
+    "result": {
+      "ssid": "Board-e5f6",
+      "password": "k3v9w2q8",
+      "linkWillDrop": true
+    }
+  },
+  "responseError": {
+    "id": 7,
+    "ok": false,
+    "error": {
+      "code": "forbidden",
+      "message": "auth required"
+    }
+  }
+}

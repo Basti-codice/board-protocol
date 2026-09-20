@@ -1,0 +1,12 @@
+{
+  "description": "Rules apply to any value, not only objects.",
+  "input": [
+    {
+      "b": 1,
+      "a": 2
+    },
+    "x"
+  ],
+  "canonical": "[{\"a\":2,\"b\":1},\"x\"]",
+  "crc32": "b8c04352"
+}

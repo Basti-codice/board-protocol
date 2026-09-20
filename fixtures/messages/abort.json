@@ -1,0 +1,27 @@
+{
+  "description": "App aborts a transfer; a transferEnd with ok false follows.",
+  "op": "abort",
+  "transport": [
+    "ble"
+  ],
+  "request": {
+    "id": 7,
+    "op": "abort",
+    "arg": {
+      "transferId": 3
+    }
+  },
+  "responseOk": {
+    "id": 7,
+    "ok": true,
+    "result": {}
+  },
+  "responseError": {
+    "id": 7,
+    "ok": false,
+    "error": {
+      "code": "notFound",
+      "message": "no running transfer 3"
+    }
+  }
+}

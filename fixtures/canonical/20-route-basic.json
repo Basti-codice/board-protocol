@@ -1,0 +1,35 @@
+{
+  "description": "A typical route. input omits hash; crc32 is the route hash; routeBytes is the canonical length with hash included.",
+  "input": {
+    "id": "4a1f0c52-9b1e-4c1d-8f3a-2b7e9d0c1a55",
+    "schema": 1,
+    "name": "Crimp Line",
+    "grade": {
+      "system": "font",
+      "value": "6B+"
+    },
+    "angle": 25,
+    "setter": "Basti",
+    "notes": null,
+    "tags": [
+      "crimps"
+    ],
+    "holds": [
+      {
+        "holdId": "c03r00",
+        "role": "start"
+      },
+      {
+        "holdId": "c05r08",
+        "role": "finish"
+      }
+    ],
+    "layoutRev": 3,
+    "createdAt": "2026-09-18T10:00:00Z",
+    "modifiedAt": "2026-09-18T10:00:00Z",
+    "deviceId": "3f9c0a1b2c3d4e5f"
+  },
+  "canonical": "{\"angle\":25,\"createdAt\":\"2026-09-18T10:00:00Z\",\"deviceId\":\"3f9c0a1b2c3d4e5f\",\"grade\":{\"system\":\"font\",\"value\":\"6B+\"},\"holds\":[{\"holdId\":\"c03r00\",\"role\":\"start\"},{\"holdId\":\"c05r08\",\"role\":\"finish\"}],\"id\":\"4a1f0c52-9b1e-4c1d-8f3a-2b7e9d0c1a55\",\"layoutRev\":3,\"modifiedAt\":\"2026-09-18T10:00:00Z\",\"name\":\"Crimp Line\",\"notes\":null,\"schema\":1,\"setter\":\"Basti\",\"tags\":[\"crimps\"]}",
+  "crc32": "c4a1a388",
+  "routeBytes": 389
+}

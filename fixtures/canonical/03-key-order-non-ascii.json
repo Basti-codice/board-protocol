@@ -1,0 +1,13 @@
+{
+  "description": "Non-ASCII keys: U+FF5E (EF BD 9E) sorts before U+1F600 (F0 9F 98 80) in UTF-8 byte order, although UTF-16 code unit order is the reverse. 'ä' (C3 A4) sorts after 'z'. A key that is a prefix of another sorts first.",
+  "input": {
+    "😀": "grin",
+    "～": "tilde",
+    "ä": 1,
+    "z": 2,
+    "ab": 3,
+    "a": 4
+  },
+  "canonical": "{\"a\":4,\"ab\":3,\"z\":2,\"ä\":1,\"～\":\"tilde\",\"😀\":\"grin\"}",
+  "crc32": "049a8f79"
+}

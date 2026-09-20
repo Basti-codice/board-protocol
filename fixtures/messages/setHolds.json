@@ -1,0 +1,48 @@
+{
+  "description": "Complete set of holds to show, with an optional routeId.",
+  "op": "setHolds",
+  "transport": [
+    "ble"
+  ],
+  "request": {
+    "id": 7,
+    "op": "setHolds",
+    "arg": {
+      "holds": [
+        {
+          "holdId": "c03r00",
+          "role": "start"
+        },
+        {
+          "holdId": "c99r99",
+          "role": "hand"
+        },
+        {
+          "holdId": "c05r08",
+          "role": "finish"
+        }
+      ],
+      "routeId": "4a1f0c52-9b1e-4c1d-8f3a-2b7e9d0c1a55"
+    }
+  },
+  "responseOk": {
+    "id": 7,
+    "ok": true,
+    "result": {
+      "shown": 2,
+      "unknown": [
+        "c99r99"
+      ],
+      "applied": 255,
+      "clamped": false
+    }
+  },
+  "responseError": {
+    "id": 7,
+    "ok": false,
+    "error": {
+      "code": "badRequest",
+      "message": "unknown role 'top'"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "description": "Only '\"' and '\\' are escaped among printable characters.",
+  "input": {
+    "s": "say \"hi\" \\ bye"
+  },
+  "canonical": "{\"s\":\"say \\\"hi\\\" \\\\ bye\"}",
+  "crc32": "30ac3203"
+}

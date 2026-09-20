@@ -1,0 +1,12 @@
+{
+  "description": "Keys sort by UTF-8 byte order: uppercase before lowercase, 'z' before 'é'. Locale collation would differ.",
+  "input": {
+    "a": 1,
+    "B": 2,
+    "é": 3,
+    "z": 4,
+    "Z": 5
+  },
+  "canonical": "{\"B\":2,\"Z\":5,\"a\":1,\"z\":4,\"é\":3}",
+  "crc32": "49b5f91d"
+}

@@ -1,0 +1,24 @@
+{
+  "description": "Turn all LEDs off.",
+  "op": "clear",
+  "transport": [
+    "ble"
+  ],
+  "request": {
+    "id": 7,
+    "op": "clear"
+  },
+  "responseOk": {
+    "id": 7,
+    "ok": true,
+    "result": {}
+  },
+  "responseError": {
+    "id": 7,
+    "ok": false,
+    "error": {
+      "code": "unsupported",
+      "message": "board not configured"
+    }
+  }
+}

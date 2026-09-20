@@ -1,0 +1,10 @@
+{
+  "description": "null, true and false are written as literals.",
+  "input": {
+    "n": null,
+    "t": true,
+    "f": false
+  },
+  "canonical": "{\"f\":false,\"n\":null,\"t\":true}",
+  "crc32": "feed0bb0"
+}

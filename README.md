@@ -41,11 +41,11 @@ that exists in code but not in this document is a bug in both repositories.
 Codec test vectors live in `fixtures/` so that the app and the firmware are
 tested against the same bytes rather than against each other's assumptions.
 
-The directory is empty while the protocol is a draft and nothing is implemented
-against it. Format and naming are decided with the first codec.
+The format of each fixture family is defined in fixtures/README.md: framing,
+canonical JSON and one file per operation.
 
 ## Status
 
-**Draft v0.1.** Nothing is implemented against it yet. Expect the message
+**Draft v0.2.** Nothing is implemented against it yet. Expect the message
 catalogue to change while the firmware is written; expect the framing and the
 versioning rules not to.

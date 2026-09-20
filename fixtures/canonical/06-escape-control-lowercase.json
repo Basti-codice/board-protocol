@@ -1,0 +1,8 @@
+{
+  "description": "U+0000-U+001F are escaped as \\u00xx with lowercase hex, never as \\n or \\t. U+007F is written raw.",
+  "input": {
+    "s": "\u0000\u0001\t\n\r\u001b\u001f"
+  },
+  "canonical": "{\"s\":\"\\u0000\\u0001\\u0009\\u000a\\u000d\\u001b\\u001f\"}",
+  "crc32": "96e27e67"
+}

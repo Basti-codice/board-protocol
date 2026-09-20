@@ -1,0 +1,187 @@
+{
+  "description": "Route at exactly maxRouteBytes (2048): 40 holds, notes within 280 characters. Valid.",
+  "input": {
+    "id": "5b6c7d8e-9f0a-4b1c-8d2e-3f4a5b6c7d8e",
+    "schema": 1,
+    "name": "Crimp Line",
+    "grade": {
+      "system": "font",
+      "value": "6B+"
+    },
+    "angle": 25,
+    "setter": "Basti",
+    "notes": "ääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääää",
+    "tags": [
+      "crimps"
+    ],
+    "holds": [
+      {
+        "holdId": "c00r00",
+        "role": "start"
+      },
+      {
+        "holdId": "c01r00",
+        "role": "hand"
+      },
+      {
+        "holdId": "c02r00",
+        "role": "hand"
+      },
+      {
+        "holdId": "c03r00",
+        "role": "foot"
+      },
+      {
+        "holdId": "c04r00",
+        "role": "start"
+      },
+      {
+        "holdId": "c05r00",
+        "role": "hand"
+      },
+      {
+        "holdId": "c06r00",
+        "role": "hand"
+      },
+      {
+        "holdId": "c07r00",
+        "role": "foot"
+      },
+      {
+        "holdId": "c08r00",
+        "role": "start"
+      },
+      {
+        "holdId": "c09r00",
+        "role": "hand"
+      },
+      {
+        "holdId": "c10r00",
+        "role": "hand"
+      },
+      {
+        "holdId": "c11r00",
+        "role": "foot"
+      },
+      {
+        "holdId": "c00r01",
+        "role": "start"
+      },
+      {
+        "holdId": "c01r01",
+        "role": "hand"
+      },
+      {
+        "holdId": "c02r01",
+        "role": "hand"
+      },
+      {
+        "holdId": "c03r01",
+        "role": "foot"
+      },
+      {
+        "holdId": "c04r01",
+        "role": "start"
+      },
+      {
+        "holdId": "c05r01",
+        "role": "hand"
+      },
+      {
+        "holdId": "c06r01",
+        "role": "hand"
+      },
+      {
+        "holdId": "c07r01",
+        "role": "foot"
+      },
+      {
+        "holdId": "c08r01",
+        "role": "start"
+      },
+      {
+        "holdId": "c09r01",
+        "role": "hand"
+      },
+      {
+        "holdId": "c10r01",
+        "role": "hand"
+      },
+      {
+        "holdId": "c11r01",
+        "role": "foot"
+      },
+      {
+        "holdId": "c00r02",
+        "role": "start"
+      },
+      {
+        "holdId": "c01r02",
+        "role": "hand"
+      },
+      {
+        "holdId": "c02r02",
+        "role": "hand"
+      },
+      {
+        "holdId": "c03r02",
+        "role": "foot"
+      },
+      {
+        "holdId": "c04r02",
+        "role": "start"
+      },
+      {
+        "holdId": "c05r02",
+        "role": "hand"
+      },
+      {
+        "holdId": "c06r02",
+        "role": "hand"
+      },
+      {
+        "holdId": "c07r02",
+        "role": "foot"
+      },
+      {
+        "holdId": "c08r02",
+        "role": "start"
+      },
+      {
+        "holdId": "c09r02",
+        "role": "hand"
+      },
+      {
+        "holdId": "c10r02",
+        "role": "hand"
+      },
+      {
+        "holdId": "c11r02",
+        "role": "foot"
+      },
+      {
+        "holdId": "c00r03",
+        "role": "start"
+      },
+      {
+        "holdId": "c01r03",
+        "role": "hand"
+      },
+      {
+        "holdId": "c02r03",
+        "role": "hand"
+      },
+      {
+        "holdId": "c03r03",
+        "role": "finish"
+      }
+    ],
+    "layoutRev": 3,
+    "createdAt": "2026-09-18T10:00:00Z",
+    "modifiedAt": "2026-09-18T10:00:00Z",
+    "deviceId": "3f9c0a1b2c3d4e5f"
+  },
+  "canonical": "{\"angle\":25,\"createdAt\":\"2026-09-18T10:00:00Z\",\"deviceId\":\"3f9c0a1b2c3d4e5f\",\"grade\":{\"system\":\"font\",\"value\":\"6B+\"},\"holds\":[{\"holdId\":\"c00r00\",\"role\":\"start\"},{\"holdId\":\"c01r00\",\"role\":\"hand\"},{\"holdId\":\"c02r00\",\"role\":\"hand\"},{\"holdId\":\"c03r00\",\"role\":\"foot\"},{\"holdId\":\"c04r00\",\"role\":\"start\"},{\"holdId\":\"c05r00\",\"role\":\"hand\"},{\"holdId\":\"c06r00\",\"role\":\"hand\"},{\"holdId\":\"c07r00\",\"role\":\"foot\"},{\"holdId\":\"c08r00\",\"role\":\"start\"},{\"holdId\":\"c09r00\",\"role\":\"hand\"},{\"holdId\":\"c10r00\",\"role\":\"hand\"},{\"holdId\":\"c11r00\",\"role\":\"foot\"},{\"holdId\":\"c00r01\",\"role\":\"start\"},{\"holdId\":\"c01r01\",\"role\":\"hand\"},{\"holdId\":\"c02r01\",\"role\":\"hand\"},{\"holdId\":\"c03r01\",\"role\":\"foot\"},{\"holdId\":\"c04r01\",\"role\":\"start\"},{\"holdId\":\"c05r01\",\"role\":\"hand\"},{\"holdId\":\"c06r01\",\"role\":\"hand\"},{\"holdId\":\"c07r01\",\"role\":\"foot\"},{\"holdId\":\"c08r01\",\"role\":\"start\"},{\"holdId\":\"c09r01\",\"role\":\"hand\"},{\"holdId\":\"c10r01\",\"role\":\"hand\"},{\"holdId\":\"c11r01\",\"role\":\"foot\"},{\"holdId\":\"c00r02\",\"role\":\"start\"},{\"holdId\":\"c01r02\",\"role\":\"hand\"},{\"holdId\":\"c02r02\",\"role\":\"hand\"},{\"holdId\":\"c03r02\",\"role\":\"foot\"},{\"holdId\":\"c04r02\",\"role\":\"start\"},{\"holdId\":\"c05r02\",\"role\":\"hand\"},{\"holdId\":\"c06r02\",\"role\":\"hand\"},{\"holdId\":\"c07r02\",\"role\":\"foot\"},{\"holdId\":\"c08r02\",\"role\":\"start\"},{\"holdId\":\"c09r02\",\"role\":\"hand\"},{\"holdId\":\"c10r02\",\"role\":\"hand\"},{\"holdId\":\"c11r02\",\"role\":\"foot\"},{\"holdId\":\"c00r03\",\"role\":\"start\"},{\"holdId\":\"c01r03\",\"role\":\"hand\"},{\"holdId\":\"c02r03\",\"role\":\"hand\"},{\"holdId\":\"c03r03\",\"role\":\"finish\"}],\"id\":\"5b6c7d8e-9f0a-4b1c-8d2e-3f4a5b6c7d8e\",\"layoutRev\":3,\"modifiedAt\":\"2026-09-18T10:00:00Z\",\"name\":\"Crimp Line\",\"notes\":\"ääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääääää\",\"schema\":1,\"setter\":\"Basti\",\"tags\":[\"crimps\"]}",
+  "crc32": "f161a8fb",
+  "routeBytes": 2048
+}

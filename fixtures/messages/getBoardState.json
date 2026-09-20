@@ -1,0 +1,27 @@
+{
+  "description": "Same payload as the boardState event.",
+  "op": "getBoardState",
+  "transport": [
+    "ble"
+  ],
+  "request": {
+    "id": 7,
+    "op": "getBoardState"
+  },
+  "responseOk": {
+    "id": 7,
+    "ok": true,
+    "result": {
+      "brightness": 142,
+      "displayedRouteId": "4a1f0c52-9b1e-4c1d-8f3a-2b7e9d0c1a55"
+    }
+  },
+  "responseError": {
+    "id": 7,
+    "ok": false,
+    "error": {
+      "code": "unsupported",
+      "message": "board not configured"
+    }
+  }
+}

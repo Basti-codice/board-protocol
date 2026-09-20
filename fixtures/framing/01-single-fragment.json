@@ -1,0 +1,10 @@
+{
+  "description": "Short request in one fragment: count 1, index 0.",
+  "mtu": 185,
+  "messageId": 1,
+  "message": "{\"id\":1,\"op\":\"getConfigSummary\"}",
+  "messageBytes": 32,
+  "fragments": [
+    "010000017b226964223a312c226f70223a22676574436f6e66696753756d6d617279227d"
+  ]
+}
