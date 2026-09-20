@@ -46,6 +46,6 @@ canonical JSON and one file per operation.
 
 ## Status
 
-**Draft v0.2.** Nothing is implemented against it yet. Expect the message
+**Draft v0.3.** Nothing is implemented against it yet. Expect the message
 catalogue to change while the firmware is written; expect the framing and the
 versioning rules not to.

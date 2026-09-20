@@ -9,6 +9,16 @@ bumps `protocolVersion` and gets a line in this file.
 - MAJOR increments for anything that changes or removes an existing shape, and
   needs a written reason in the entry below.
 
+## 0.3
+
+Storage limits fixed from the firmware's measured budget (4 MB flash, 1472 kB
+LittleFS, routes packed into bucket files).
+
+- `maxRoutes` 250 is no longer provisional.
+- The free-space reserve behind `storageFull` is specified: 512 kB, chosen so
+  that replacing the photo (about 442 kB of temporary copies) always succeeds.
+  At the full `maxRouteBytes` per route the reserve trips at about 208 routes.
+
 ## 0.2
 
 Closes the gaps that made 0.1 unimplementable. Most of these changes are

@@ -4,9 +4,9 @@ Shared contract between the mobile app and the ESP32 controller firmware. Both
 repositories include this one as a submodule. This document is the single source
 of truth: no message may exist in code that is not described here.
 
-**Status: draft v0.2.** Nothing has been implemented against it yet. v0.1 was
-never implemented; v0.2 replaces it without compatibility. Values marked
-**PROVISIONAL** are set by the firmware's storage budget and may still change.
+**Status: draft v0.3.** Nothing has been implemented against it yet. v0.1 was
+never implemented; v0.2 replaced it without compatibility. v0.3 fixes the
+storage limits from the firmware's measured budget.
 
 ## Versioning
 
@@ -357,13 +357,13 @@ successful `hello` gets `badRequest`.
 
 ```json
 { "op": "hello", "arg": { "deviceId": "3f9c0a1b2c3d4e5f", "appVersion": "1.4.0",
-                          "protocolVersion": "0.2" } }
+                          "protocolVersion": "0.3" } }
 ```
 
 Result:
 
 ```json
-{ "protocolVersion": "0.2", "firmwareVersion": "1.0.0",
+{ "protocolVersion": "0.3", "firmwareVersion": "1.0.0",
   "boardId": "a1b2c3d4e5f6", "name": "Kellerwand", "unconfigured": false,
   "capabilities": ["leds", "routes", "photo", "setupAp"],
   "limits": { "maxRoutes": 250, "maxRouteBytes": 2048, "maxHoldsPerRoute": 40 },
@@ -377,9 +377,8 @@ Result:
   [Setup transport](#setup-transport)); the app must never use it, and `hello`
   with it gets `badRequest`.
 - `unconfigured` mirrors status bit 1 of the scan response.
-- `limits`: the app reads these and never hardcodes them. It enforces them before
-  uploading. `maxRoutes` is **PROVISIONAL**; firmware stage 2 sets the final
-  value from the real partition budget.
+- `limits`: the app reads these and never hardcodes them. It enforces them
+  before uploading.
 - `mtu`: the negotiated ATT MTU. Below 185, `hello` gets `badRequest`.
 - `capabilities` is how features are added without breaking older apps. Future
   values include `"holdSensing"`. An app must ignore capabilities it does not
@@ -492,7 +491,7 @@ Full board descriptor, sent as a download transfer. The payload is JSON:
                    "foot": "E0B94A", "finish": "A583E8" },
   "power": { "volts": 5, "milliamps": 4000, "controllerSharesSupply": true },
   "capabilities": ["leds", "routes", "photo", "setupAp"],
-  "protocolVersion": "0.2"
+  "protocolVersion": "0.3"
 }
 ```
 
@@ -744,14 +743,17 @@ board's. `photoChanged` alone never triggers a staleness warning.
 
 | Limit | Value |
 |---|---|
-| `maxRoutes` | 250 (**PROVISIONAL**, set by firmware stage 2 from the real partition budget) |
+| `maxRoutes` | 250 |
 | `maxRouteBytes` | 2048 |
 | `maxHoldsPerRoute` | 40 |
 
 Returned in `hello`. `storageFull` is returned when the route count limit is
-reached, or when storing the route would leave the filesystem with less free
-space than the reserve that firmware stage 2 defines (**PROVISIONAL**, not yet
-specified).
+reached, or when storing the route would leave the controller with less than
+the **free-space reserve of 512 kB** on its filesystem. The reserve exists so
+that replacing the photo, which needs about 442 kB for temporary copies, always
+succeeds no matter how many routes are stored. Routes are stored packed, so 250
+routes of typical size fit comfortably; 250 routes at the full `maxRouteBytes`
+do not, and the reserve stops that at about 208 routes.
 
 #### Authority
 

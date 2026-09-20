@@ -1,6 +1,6 @@
 # Fixtures
 
-Codec test vectors for `PROTOCOL.md` v0.2. The app and the firmware both load
+Codec test vectors for `PROTOCOL.md` v0.3. The app and the firmware both load
 every file here in their unit tests, so each side is tested against the same
 bytes rather than against the other's assumptions.
 
@@ -81,4 +81,4 @@ integers, literals, array order, empty containers, float rejection, a non-object
 top level), plus routes: a basic route, a multi-byte name, a 48-character name
 of 4-byte characters, a route of exactly `maxRouteBytes` and one a byte over.
 
-Messages: all 23 operations of v0.2, and all events.
+Messages: all 23 operations of v0.3, and all events.
