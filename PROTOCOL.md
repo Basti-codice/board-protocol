@@ -358,7 +358,7 @@ downloads (§6) whenever its `sha256` in `getSettings` changes.
   "cols": 12,
   "rows": 12,
   "face": { "w": 1800, "h": 2200 },
-  "positions":   [[417, 227], [1250, 227], "…", null, "…"],
+  "positions":   [[417, 1364], [1250, 1364], "…", null, "…"],
   "ledMap":      [0, 1, 2, "…", 23, 22, "…", null, "…"],
   "holdChanges": [0, 0, 5, 0, "…"]
 }
@@ -417,6 +417,11 @@ and the board cannot notice, because it only sees indices. Therefore every
 `setLeds` carries the `settingsRevision` it was computed against. If it does not
 match, the board answers `203 staleSettings` and shows nothing. The app reloads
 what changed, recomputes and sends again.
+
+**A settings change switches the wall off.** Whenever `settingsRevision`
+changes, the board switches all LEDs off (wall state `none`, §9.4) and sends
+`wallChanged` to all connections. A frame computed with the old settings could
+show wrong holds or colours, and the board cannot recompute it (principle 2).
 
 `settingsRevision` is a uint16 that wraps around; it is only ever compared for
 equality.
@@ -699,9 +704,13 @@ New codes are additions within a range and do not increase `protocolVersion`.
 | What | Value | Who |
 |---|---|---|
 | Gap between packets of one message | 1 s | both (§4.6) |
-| Answer to a request | 3 s until its first packet arrives | app: after that the request counts as failed |
+| Answer to a request | 3 s until its first packet arrives | app: the request counts as failed and the app closes the connection |
 | Gap between transfer chunks | 5 s | app (§6.4) |
 | Idle connection | `idleTimeoutS` from the settings | board (§9.6) |
+
+**Why the app closes the connection after a missing answer:** request IDs wrap
+around at 256 (§4.2), so a late answer could be matched to a newer request with
+the same ID. A new connection starts clean; repeating the request follows §8.5.
 
 ### 8.5 Repeating requests
 
@@ -714,16 +723,16 @@ repeating cannot do harm:
 * **Route changes** (`saveRoute`, `updateRoute`, `deleteRoute`) carry a
   `token`: a random uint32 the app creates once per operation and reuses for
   every repetition of that operation. The board remembers the answers to the
-  last 16 tokens, across all connections, but not across a restart. A request
-  with a known token gets the remembered answer and is not carried out a second
-  time.
+  last 16 tokens, across all connections and across restarts. A request with a
+  known token gets the remembered answer and is not carried out a second time.
 * **Never repeated unchanged:** requests that failed with `1xx`, `2xx` or
   `4xx`. (`203` and `205` lead to a changed request, see below.)
 
 **Why tokens:** if the connection drops after the board saved a route but before
 the answer arrived, the app cannot know whether the save happened. Without a
 token, repeating it would create a duplicate; for an update, the repetition
-would even report a false conflict.
+would even report a false conflict. The tokens survive a restart because a
+restart between saving and answering has the same effect.
 
 **Special handling**
 
@@ -837,7 +846,7 @@ update. Once per session.
 |---|---|
 | `firmware`, `hardware` | informational only; the app never decides anything based on them |
 | `capabilities` | §7.2 |
-| `maxMessage` | largest message payload the board accepts (§4.4) |
+| `maxMessage` | largest message payload the board accepts (§4.4). Always large enough for a full `setLeds` (`7 + 3 × ledCount` bytes) and for a `saveRoute` or `updateRoute` with `maxRouteHolds` holds and every field at its limit; the board never accepts a configuration that breaks this |
 | `maxChunk` | largest chunk data size the board sends (§6.2) |
 | `maxRouteHolds` | most holds per route |
 | `maxBatch` | most route IDs per `getRoutes` (§9.11) |
@@ -935,7 +944,7 @@ settings, resources or the route index only if the matching revision,
   "routeCount": 143,
   "storageFree": 1043968,
   "brightness": 160,
-  "wall": { "source": "app", "routeId": 42 },
+  "wall": { "source": "app", "routeId": 42, "wallSeq": 3108 },
   "uptime": 90210
 }
 ```
@@ -948,7 +957,8 @@ settings, resources or the route index only if the matching revision,
 | `routeCount`, `storageFree` | informational; `storageFree` in bytes |
 | `brightness` | current global brightness, 0–255 |
 | `wall.source` | where the current frame came from: `"app"` (a `setLeds`), `"button"` (shown again with the button on the controller), or `"none"` when all LEDs are off |
-| `wall.routeId` | board route currently shown; `0` = the wall shows no board route (for example a private or unsaved route) |
+| `wall.routeId` | board route currently shown; `0` = the wall shows no board route (for example a private or unsaved route); always `0` when `source` is `"none"` |
+| `wall.wallSeq` | uint32 that counts changes of the frame: +1 for every `setLeds`, for the button and whenever the LEDs go off; a brightness change leaves it unchanged. Starts at a random value below 2³¹ at every start of the board (§9.9) |
 | `uptime` | seconds since start, informational |
 
 **Why three description messages:** the split follows the rate of change, not
@@ -1011,10 +1021,11 @@ For 108 LEDs that is 331 bytes, one message.
 
 **Response**
 ```json
-{ "limited": false }
+{ "limited": false, "wallSeq": 3108 }
 ```
 `limited` is `true` if the board had to dim the output to stay within its
-current budget.
+current budget. `wallSeq` is the wall's sequence number after this frame
+(§9.4, §9.9).
 
 **Errors:** `203 staleSettings` if the revision does not match ·
 `201 invalidArgument` if the payload is not exactly `7 + ledCount × 3` bytes ·
@@ -1024,8 +1035,8 @@ current budget.
 
 * shows the frame, scaled by the global brightness,
 * keeps the total current within `power.budgetMa` by dimming, never by refusing,
-* sets the wall state: `source = "app"` (or `"none"` if every LED is off) and
-  `routeId` from the frame,
+* sets the wall state: `source = "app"` and `routeId` from the frame; if every
+  LED is off, `source = "none"` and `routeId = 0`. `wallSeq` increases by 1,
 * sends `wallChanged` to all **other** connections.
 
 A running transfer never delays `setLeds`.
@@ -1079,13 +1090,23 @@ kept across restarts. The board stays within its current budget as with
 Tells an app that something else changed what is on the wall.
 
 ```json
-{ "source": "app", "routeId": 42, "brightness": 160 }
+{ "source": "app", "routeId": 42, "wallSeq": 3108, "brightness": 160 }
 ```
 
 Sent to every connection except the one whose `setLeds` or `setBrightness`
-caused it. After a press of the button on the controller, sent to all
-connections. The fields have the same meaning as `wall` and `brightness` in
-`getStatus` (§9.4).
+caused it. When the board changes the wall itself (button, settings change),
+sent to all connections. The fields have the same meaning as `wall` and
+`brightness` in `getStatus` (§9.4).
+
+**Who owns the wall:** an app knows that another device or the board has
+changed the frame when it receives a `wallSeq` newer than the one in the answer
+to its own last `setLeds`. A `wallChanged` with an unchanged `wallSeq` only
+reports a brightness change.
+
+**Why a sequence number:** answers and events of different connections can
+cross. Without `wallSeq`, a phone whose frame was applied last could still
+receive the `wallChanged` of an earlier frame from another phone and wrongly
+conclude that it had lost the wall.
 
 ---
 
@@ -1441,8 +1462,8 @@ Fixtures use the **reference wall**. It is test data, never an assumption in
 code:
 
 * wall face 1800 × 2200 mm (width × height)
-* 12 columns × 12 rows, centred horizontally on the face; hold spacing 150 mm,
-  between row 1 and row 2 100 mm (see Appendix B)
+* 12 columns × 12 rows, centred horizontally and vertically on the face; hold
+  spacing 150 mm, except 100 mm between the two top rows (row 0 and row 1)
 * every position has a hold; the three bottom rows have no LEDs, which leaves
   108 LEDs
 * chain: a snake starting top left, seen from the front: row 0 from left to
@@ -1554,4 +1575,3 @@ not.
 | `maxMessage = 4096` in the examples | Has to be checked against the real memory use of JSON handling on the controller. |
 | Download speed | A full photo of about 300 KB has to be measured on real hardware. If it is too slow: `bulkChannel` (§11). |
 | `companyId` | `0xFFFF` is a placeholder until a registered company ID exists. Changing it only affects the optional scan data (§2.3). |
-| Reference wall | Is the 100 mm spacing between the two top rows or the two bottom rows, and where does the grid sit vertically on the face? Needed for the positions in `fixtures/resources/layout.json` (§12). |
