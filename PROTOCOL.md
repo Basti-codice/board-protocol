@@ -704,13 +704,20 @@ New codes are additions within a range and do not increase `protocolVersion`.
 | What | Value | Who |
 |---|---|---|
 | Gap between packets of one message | 1 s | both (§4.6) |
-| Answer to a request | 3 s until its first packet arrives | app: the request counts as failed and the app closes the connection |
+| Answer to a request | 3 s until its first packet arrives; 10 s for `saveRoute`, `updateRoute` and `deleteRoute`, because they write to storage | app: the request counts as failed and the app closes the connection |
 | Gap between transfer chunks | 5 s | app (§6.4) |
 | Idle connection | `idleTimeoutS` from the settings | board (§9.6) |
+
+A request's timeout starts once the answers to all earlier requests of the same
+connection have arrived. The board answers in order (§4.5), so a slow route
+change must not make the requests queued behind it time out.
 
 **Why the app closes the connection after a missing answer:** request IDs wrap
 around at 256 (§4.2), so a late answer could be matched to a newer request with
 the same ID. A new connection starts clean; repeating the request follows §8.5.
+A finer rule would be possible (an ID is free again once a later request has
+been answered), but it is not worth it: in practice a missing answer means the
+link is broken, and reconnecting is the simplest robust reaction.
 
 ### 8.5 Repeating requests
 
@@ -725,6 +732,8 @@ repeating cannot do harm:
   every repetition of that operation. The board remembers the answers to the
   last 16 tokens, across all connections and across restarts. A request with a
   known token gets the remembered answer and is not carried out a second time.
+  The token is stored in the same step as the change it belongs to: after a
+  power loss, either both exist or neither.
 * **Never repeated unchanged:** requests that failed with `1xx`, `2xx` or
   `4xx`. (`203` and `205` lead to a changed request, see below.)
 
@@ -923,7 +932,9 @@ it and give the user a hint:
 current ≈ Σ over all LEDs  (r + g + b) / 255 × maPerChannel × brightness / 255
 ```
 
-The estimate is only a hint. The board enforces the budget itself (§9.7).
+The estimate is only a hint. The board enforces the budget itself (§9.7). The
+estimate deliberately ignores the small quiescent current of the LEDs; the
+board includes it when it enforces the budget.
 
 ---
 
@@ -958,8 +969,10 @@ settings, resources or the route index only if the matching revision,
 | `brightness` | current global brightness, 0–255 |
 | `wall.source` | where the current frame came from: `"app"` (a `setLeds`), `"button"` (shown again with the button on the controller), or `"none"` when all LEDs are off |
 | `wall.routeId` | board route currently shown; `0` = the wall shows no board route (for example a private or unsaved route); always `0` when `source` is `"none"` |
-| `wall.wallSeq` | uint32 that counts changes of the frame: +1 for every `setLeds`, for the button and whenever the LEDs go off; a brightness change leaves it unchanged. Starts at a random value below 2³¹ at every start of the board (§9.9) |
+| `wall.wallSeq` | uint32 that counts changes of the frame: +1 for every `setLeds`, for the button and whenever the LEDs go off; a brightness change leaves it unchanged. Starts at a random value below 2³¹ at every start of the board, so values are comparable only within one run of the board (§9.9) |
 | `uptime` | seconds since start, informational |
+
+After every start of the board, the wall is off: `source` is `"none"`.
 
 **Why three description messages:** the split follows the rate of change, not
 the topic. The most frequent case, reconnecting and checking whether anything
@@ -1103,6 +1116,11 @@ changed the frame when it receives a `wallSeq` newer than the one in the answer
 to its own last `setLeds`. A `wallChanged` with an unchanged `wallSeq` only
 reports a brightness change.
 
+After connecting, an app keeps the `wallSeq` it remembered from an earlier
+connection only if it equals `wall.wallSeq` in `getStatus`. Otherwise another
+device, the board or a restart has changed the wall in the meantime, and the app
+discards the remembered value.
+
 **Why a sequence number:** answers and events of different connections can
 cross. Without `wallSeq`, a phone whose frame was applied last could still
 receive the `wallChanged` of an earlier frame from another phone and wrongly
@@ -1232,7 +1250,9 @@ Stores a new route on the board.
 * `ownerId`: a random ID each app installation creates once. The board stores it
   with the route. In V1 it is neither evaluated nor returned; it prepares
   owner-only editing (capability `ownership`, §11), so that routes saved in V1
-  already have an owner.
+  already have an owner. It is never returned, on purpose: once owner-only
+  editing exists, knowing a route's `ownerId` would be enough to act as its
+  owner.
 * In V1, every connected app may save.
 
 **Errors**
@@ -1261,8 +1281,10 @@ every route.
 }
 ```
 
-* `route` replaces all fields the app sets (§10.1). `createdAt` and the stored
-  `ownerId` are kept; `routeId` and `rev` are never taken from the request.
+* `route` is the complete route as it should be stored: it replaces every field
+  that §10.1 marks as set by the app, and an optional field that is omitted is
+  removed. `createdAt` and the stored `ownerId` are kept; `routeId` and `rev`
+  are never taken from the request.
 * `baseRev` is the `rev` of the version the edit started from.
 
 **Response**
@@ -1274,7 +1296,8 @@ every route.
 
 * `205 conflict`: the route has changed since `baseRev`. The app asks the user:
   **overwrite** (load the current route with `getRoutes`, send again with its
-  `rev` as `baseRev`) or **discard**.
+  `rev` as `baseRev` and a new `token`, because it is a new operation) or
+  **discard**.
 * `202 notFound`: the route was deleted in the meantime.
 * `201`, `401`, `302` as for `saveRoute`.
 
@@ -1572,6 +1595,8 @@ not.
 
 | Point | Why open |
 |---|---|
+| `fixtures/` | Not generated yet. Generating them from this document is the first implementation step, before any app or controller code that is tested against them (§12). |
+| Route change time | How long a route change takes on nearly full storage, including the token (§8.5), has to be measured. It must stay below the 10 s of §8.4. |
 | `maxMessage = 4096` in the examples | Has to be checked against the real memory use of JSON handling on the controller. |
 | Download speed | A full photo of about 300 KB has to be measured on real hardware. If it is too slow: `bulkChannel` (§11). |
 | `companyId` | `0xFFFF` is a placeholder until a registered company ID exists. Changing it only affects the optional scan data (§2.3). |
