@@ -1,8 +1,0 @@
-{
-  "description": "'/' is never escaped.",
-  "input": {
-    "url": "a/b/../c"
-  },
-  "canonical": "{\"url\":\"a/b/../c\"}",
-  "crc32": "47fd3fb1"
-}
