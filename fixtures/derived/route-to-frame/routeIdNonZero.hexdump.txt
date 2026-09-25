@@ -4,7 +4,7 @@
 #
 0000: 0c 00                                            # settingsRevision = 12 (uint16 LE)
 0002: 00                                               # reserved = 0
-0003: 78 56 34 12                                      # routeId = 305419896 = 0x12345678 (uint32 LE)
+0003: 23 01 00 00                                      # routeId = 291 = 0x00000123 (uint32 LE)
 0007: 00 00 00                                         # led   0  c0 r0   off
 000a: 00 00 00                                         # led   1  c1 r0   off
 000d: 00 00 00                                         # led   2  c2 r0   off

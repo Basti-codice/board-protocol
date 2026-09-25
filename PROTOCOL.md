@@ -1486,6 +1486,9 @@ Example messages that **both sides test against**; that is the actual purpose of
 this repository. Every message type has at least one valid example; messages
 with error cases also have an invalid one.
 
+Examples in this document are illustrative; the files in `fixtures/` are
+consistent with each other and are the reference for tests.
+
 Fixtures use the **reference wall**. It is test data, never an assumption in
 code:
 

@@ -5,13 +5,13 @@
   "routeId": 58,
   "route": {
     "routeId": 58,
-    "rev": 91,
+    "rev": 366,
     "name": "Grüne Leiste",
     "grade": "6C+",
     "setter": "Jörg",
     "description": "Stay low through the middle.",
-    "createdAt": 1789200000,
-    "updatedAt": 1789286400,
+    "createdAt": 1779184000,
+    "updatedAt": 1789876000,
     "holdsRevision": 5,
     "feet": "any",
     "tags": [

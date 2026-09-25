@@ -2,11 +2,11 @@
   "layout": "resources/layout.holdRemoved.json",
   "route": {
     "routeId": 66,
-    "rev": 83,
+    "rev": 82,
     "name": "Gone Pinch",
     "grade": "6C",
-    "createdAt": 1789900000,
-    "updatedAt": 1789900000,
+    "createdAt": 1779544000,
+    "updatedAt": 1779652000,
     "holdsRevision": 5,
     "holds": [
       {

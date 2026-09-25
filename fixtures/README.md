@@ -152,37 +152,86 @@ size and SHA-256.
 
 ## 3. Message fixtures (top level)
 
-The files of the §12 tree. Where PROTOCOL.md has an example, the fixture uses
-its values. The exceptions and additions:
+The files of the §12 tree. The examples in PROTOCOL.md are illustrative. The
+fixtures follow their shape but use their own values, so that all files fit one
+board (3.1).
 
 | File | Note |
 |---|---|
 | `0x03-getSettings.response.json` | `layout` = size and sha256 of `resources/layout.holdChanges.json`; `photo` = real values of the two PNGs (`image/png`, 32 × 39 and 160 × 196) |
+| `0x04-getStatus.response.json` | routesRevision 363, routeCount 275; the wall shows route 42 |
+| `0x05-statusChanged.event.json` | after the `saveRoute` at rev 364 |
 | `0x10-setLeds.request.bin` | route 42 on the current layout: settingsRevision 12, routeId 42. Identical to `derived/route-to-frame/holdWithoutLed.bin` |
-| `0x20-syncIndex.response.json` | since 87: route 42 (rev 88) and a tombstone for route 17 (rev 89), `routesRevision` 92, `more: true`; revisions 90–92 would follow on the next page |
-| `0x20-syncIndex.reset.response.json` | `reset: true`, complete index without tombstones: routes 3, 42, 58, `more: false` |
-| `0x21-getRoutes.response.json` | route 42 as in §10.1 without `angle`; 17 and 103 missing |
-| `0x22-saveRoute.invalidPosition.error.json` | `201` for a hold at c12 r3, outside the grid |
-| `0x23-updateRoute.request.json` | the complete route as it should be stored. `createdAt` is sent with its stored value; the board keeps its own anyway (§9.13) |
+| `0x20-syncIndex.request.json`, `.response.json` | since 363: tombstone for route 17 (rev 365) and route 58 (rev 366), `routesRevision` 368, `more: true`. Route 301 (rev 367) and route 300 (rev 368) would follow on the next page |
+| `0x20-syncIndex.reset.response.json` | `reset: true`: the first page of the complete index, without tombstones. It holds the routes with the lowest revisions (3, 12, 21, 31), `more: true` |
+| `0x21-getRoutes.response.json` | route 42 as in §10.1 without `angle`; 17 and 103 are deleted, hence missing |
+| `0x22-saveRoute.*` | route 300 "Sunset", saved at rev 364 |
+| `0x23-updateRoute.request.json` | the complete route as it should be stored. `createdAt` is sent with its stored value; the board keeps its own anyway (§9.13). The description contains a line feed (§10.1), written as `\n` |
+| `0x24-deleteRoute.*` | route 300, deleted at rev 369 |
 | `0x30-xferBegin.*.json` | resource `photo`, `chunkSize` 234 (= MTU 247 − 13, §6.2), `transferId` 3, real size and sha256 of `resources/photo.png` |
 | `0x31-xferChunk.event.bin` | the first chunk of that transfer: transferId 3, offset 0, the first 234 bytes of `photo.png` |
 
 No route in any fixture has `angle`, because the reference wall has
 `angleAdjustable: false`. This includes `syncIndex` and `getRoutes`.
 
-**Linked values.** These values agree across all fixtures:
+### 3.1 One board
 
-* the reference wall and the board values above;
-* the resources (sizes, hashes);
-* `transferId` 3 in all transfer messages;
-* the wall state. The `setLeds` request shows route 42, and its response has
-  `wallSeq` 3108. `getStatus` has `wall = {source "app", routeId 42, wallSeq
-  3108}` and brightness 160, and `wallChanged` carries the same values.
+All fixtures describe the same board (section 2) and one timeline of its route
+storage.
 
-All other numbers (`routesRevision`, `rev`, route IDs, tokens) are examples per
-message, mostly taken from PROTOCOL.md. They do not form one timeline. For
-example, the `saveRoute` response (rev 88) and route 42 (rev 88) both come from
-PROTOCOL.md, and `statusChanged` reports settingsRevision 13 after a change.
+**History.** Before the story, routes 1–299 were created in order; every
+creation is a revision. 24 of them were deleted, and 40 updates happened. That
+gives `routesRevision` 363 and `routeCount` 275.
+
+| Route | rev | Note |
+|---|---|---|
+| 3 | 7 | |
+| 12 | 40 | |
+| 21 | 52 | |
+| 31 | 60 | |
+| 61 | 80 | |
+| 66 | 82 | |
+| 67 | 83 | |
+| 73 | 90 | |
+| 80 | 98 | |
+| 291 | 352 | |
+| 42 | 363 | its holds were set at holdsRevision 4; the change at 363 was to its text |
+
+Routes 31 and 67 were stored before the wall was rebuilt from 13 to 12 columns.
+Their holds in column 12 are missing now (section 7).
+
+**Wall.** This app's `setLeds` shows route 42, and the response has `wallSeq`
+3108. The other connections get `wallChanged` with the same values and
+brightness 160. `getStatus` reports this wall.
+
+**Story**
+
+| routesRevision | Event | Fixtures |
+|---|---|---|
+| 363 | state when `getStatus` is read | `getStatus`, `syncIndex` request (since 363) |
+| 364 | this app saves route 300 | `saveRoute`; `statusChanged` to all connections |
+| 365 | another app deletes route 17 | tombstone in `syncIndex`; missing in `getRoutes` |
+| 366 | another app updates route 58 | `syncIndex`, `derived/route-to-frame/ordinary` |
+| 367 | another app saves route 301 | (next `syncIndex` page) |
+| 368 | this app updates route 300 (baseRev 364) | `updateRoute`; `syncIndex` answered here |
+| 369 | this app deletes route 300 | `deleteRoute`; a repeated delete with a new token gives `errors/0x24-deleteRoute.202-notFound.error.json` |
+
+Timestamps fit this order: `createdAt` grows with `routeId`, `updatedAt` with
+`rev`.
+
+**Alternative outcomes.** Some files show what would happen instead, in the
+same situation. They fit the same board but are not steps of the story:
+
+* the error files (top level and `errors/`);
+* `0x03-getSettings.unconfigured.response.json`;
+* `0x20-syncIndex.reset.response.json`;
+* `0x33-xferAbort.event.json`, instead of `xferEnd`.
+
+`layout.holdRemoved.json` shows the wall as it would be if the hold at c6 r2
+were removed. It is not the board's layout and is used only by
+`derived/route-warnings/`.
+
+The script checks all of this.
 
 ---
 
@@ -287,7 +336,7 @@ Brightness is not applied in the frame.
 | `chainEnds` | 73: finish c0 r0, start c11 r8 | LED 0 and LED 107 (the last three bytes) |
 | `onlyHoldsWithoutLeds` | 80: holds in rows 9–11 only | all 324 colour bytes are 0 |
 | `routeIdZero` | a private route that is not on the board | routeId 0 → `00 00 00 00` |
-| `routeIdNonZero` | routeId 305419896 = `0x12345678` | byte order: `78 56 34 12` |
+| `routeIdNonZero` | route 291 = `0x0123` | byte order: `23 01 00 00` |
 
 ---
 
@@ -429,6 +478,12 @@ The script checks, among other things:
   * `getRoutes` against `maxBatch`;
   * `wallSeq` and the linked wall state;
   * error file names and code coverage.
+* **One board (3.1):**
+  * a `routeId` means the same route in every file;
+  * every change has its own revision;
+  * the story is in order;
+  * the pages of `syncIndex` and `reset` skip nothing;
+  * the timestamps are plausible.
 * **frames/:** headers and packet splitting.
 * **Sizes:** every request payload against `maxMessage`. The same holds for a
   `saveRoute` and an `updateRoute` with `maxRouteHolds` holds and every field at

@@ -5,11 +5,11 @@
   "routeId": 80,
   "route": {
     "routeId": 80,
-    "rev": 86,
+    "rev": 98,
     "name": "Floor Traverse",
     "grade": "5+",
-    "createdAt": 1789700000,
-    "updatedAt": 1789700000,
+    "createdAt": 1780156000,
+    "updatedAt": 1780228000,
     "holdsRevision": 5,
     "feet": "any",
     "holds": [

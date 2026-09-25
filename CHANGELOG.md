@@ -30,5 +30,10 @@ Clarifications in `PROTOCOL.md`:
   `description`.
 * §12: the fixture tree shows the actual state, including `errors/`,
   `layout.holdRemoved.json`, the photos, `fixtures/README.md` and `tools/`.
+  New: examples in this document are illustrative; the files in `fixtures/`
+  are consistent with each other and are the reference for tests.
+* The fixtures therefore use their own values instead of the example values:
+  one board with one timeline of its route storage (`fixtures/README.md`,
+  3.1). The script checks this.
 * Appendix B: the row on `fixtures/` is removed. The `maxMessage` row now gives
   the size of the largest possible route message, about 3 350 bytes.

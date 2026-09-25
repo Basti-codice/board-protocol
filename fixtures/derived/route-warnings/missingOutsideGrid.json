@@ -2,11 +2,11 @@
   "layout": "resources/layout.holdChanges.json",
   "route": {
     "routeId": 67,
-    "rev": 84,
+    "rev": 83,
     "name": "Old Arete",
     "grade": "7A",
-    "createdAt": 1789950000,
-    "updatedAt": 1789950000,
+    "createdAt": 1779580000,
+    "updatedAt": 1779688000,
     "holdsRevision": 5,
     "holds": [
       {

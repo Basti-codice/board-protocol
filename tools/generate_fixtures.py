@@ -280,38 +280,91 @@ def index_entry(r):
     return entry
 
 
-# The route of §10.1, without angle (the reference wall is not adjustable).
-ROUTE_42 = route(
-    "Sunrise",
+# ---------------------------------------------------------------------------
+# One board, one timeline (fixtures/README.md, "One board")
+#
+# Before the story, routes 1-299 were created (IDs in order, each creation is a
+# revision), 24 were deleted, 40 updates happened: routesRevision 363, 275
+# routes. Then:
+#   364  this app saves route 300          (saveRoute, statusChanged)
+#   365  another app deletes route 17      (tombstone in syncIndex)
+#   366  another app updates route 58
+#   367  another app saves route 301
+#   368  this app updates route 300        (updateRoute; syncIndex taken here)
+#   369  this app deletes route 300        (deleteRoute)
+# ---------------------------------------------------------------------------
+
+ROUTES_REVISION = 363
+ROUTE_COUNT = 275
+NEW_ROUTE_ID = 300
+REV_SAVE, REV_DELETE_17, REV_UPDATE_58, REV_UPDATE, REV_DELETE = 364, 365, 366, 368, 369
+SYNC_REVISION = REV_UPDATE
+
+
+def stamp(rev):
+    """Unix seconds for the moment of revision `rev`. Timestamps come from the
+    apps (§3); they only have to be plausible: later revision, later time."""
+    return 1776700000 + rev * 36000
+
+
+def created_rev(route_id):
+    """The revision at which a route of the history was created."""
+    return route_id + route_id // 5
+
+
+def board_route(route_id, rev, name, holds, holds_revision, **fields):
+    return route(name, holds, holds_revision, stamp(created_rev(route_id)), stamp(rev),
+                 route_id=route_id, rev=rev, **fields)
+
+
+# The route of §10.1, without angle (the reference wall is not adjustable). Its
+# holds were set at holdsRevision 4; the last change (rev 363) was to its text.
+ROUTE_42 = board_route(
+    42, ROUTES_REVISION, "Sunrise",
     [(3, 8, "start"), (5, 6, "hand"), (4, 10, "foot"), (7, 0, "finish")],
-    4, 1790000000, 1790086400, route_id=42, rev=88, grade="6A+",
-    setter="Sebastian", description="Left heel on the start jug.",
+    4, grade="6A+", setter="Sebastian", description="Left heel on the start jug.",
     feet="marked", tags=["crimpy", "slab"])
 
-ROUTE_3 = route(
-    "Warm-up Ladder",
+ROUTE_3 = board_route(
+    3, 7, "Warm-up Ladder",
     [(1, 8, "start"), (2, 6, "hand"), (1, 4, "hand"), (2, 2, "hand"), (1, 0, "finish")],
-    0, 1788500000, route_id=3, rev=7, grade="5", setter="Mia", feet="any")
+    0, grade="5", setter="Mia", feet="any")
 
-ROUTE_58 = route(
-    "Grüne Leiste",
+ROUTE_12 = board_route(
+    12, 40, "Clean Line",
+    [(1, 8, "start"), (1, 5, "hand"), (3, 3, "hand"), (2, 0, "finish")],
+    2, grade="5+")
+
+ROUTE_21 = board_route(
+    21, 52, "Heel Hook",
+    [(1, 7, "start"), (2, 10, "foot"), (3, 4, "hand"), (4, 0, "finish")],
+    3, grade="6B")
+
+# Stored before the wall was rebuilt from 13 to 12 columns: c12 r5 is gone.
+ROUTE_31 = board_route(
+    31, 60, "Everything Changed",
+    [(7, 0, "finish"), (5, 6, "hand"), (12, 5, "hand"), (6, 2, "hand"),
+     (8, 3, "hand"), (2, 8, "start")],
+    3, grade="7A+")
+
+ROUTE_58 = board_route(
+    58, REV_UPDATE_58, "Grüne Leiste",
     [(2, 7, "start"), (4, 7, "start"), (3, 5, "hand"), (6, 4, "hand"),
      (5, 2, "hand"), (6, 0, "finish")],
-    5, 1789200000, 1789286400, route_id=58, rev=91, grade="6C+",
-    setter="Jörg", description="Stay low through the middle.", feet="any",
-    tags=["crimpy", "technical"])
+    5, grade="6C+", setter="Jörg", description="Stay low through the middle.",
+    feet="any", tags=["crimpy", "technical"])
 
 SAVE_ROUTE = route(
-    "Sunrise",
-    [(3, 8, "start"), (7, 0, "finish")],
-    5, 1790000000, grade="6A+", setter="Sebastian",
-    description="Left heel on the start jug.", feet="marked", tags=["crimpy"])
+    "Sunset",
+    [(2, 8, "start"), (4, 5, "hand"), (6, 1, "finish")],
+    5, stamp(REV_SAVE), grade="6B", setter="Sebastian",
+    description="Match on the last crimp.", feet="marked", tags=["crimpy"])
 
 UPDATE_ROUTE = route(
-    "Sunrise",
-    [(3, 8, "start"), (5, 6, "hand"), (4, 10, "foot"), (7, 0, "finish")],
-    5, 1790000000, 1790086400, grade="6A+", setter="Sebastian",
-    description="Left heel on the start jug.", feet="marked",
+    "Sunset",
+    [(2, 8, "start"), (3, 10, "foot"), (4, 5, "hand"), (5, 3, "hand"), (6, 1, "finish")],
+    5, stamp(REV_SAVE), stamp(REV_UPDATE), grade="6B+", setter="Sebastian",
+    description="Match on the last crimp.\nLeft foot on the kicker.", feet="marked",
     tags=["crimpy", "slab"])
 
 # ---------------------------------------------------------------------------
@@ -322,60 +375,49 @@ UPDATE_ROUTE = route(
 ROUTE_TO_FRAME = {
     "ordinary": (58, ROUTE_58, {
         93: "start", 91: "start", 68: "hand", 54: "hand", 29: "hand", 6: "finish"}),
-    "allRoles": (61, route(
-        "Four Colours",
+    "allRoles": (61, board_route(
+        61, 80, "Four Colours",
         [(1, 7, "start"), (3, 8, "foot"), (2, 5, "hand"), (4, 3, "hand"), (3, 1, "finish")],
-        5, 1789500000, route_id=61, rev=80, grade="6A", setter="Mia",
-        feet="marked"), {
+        5, grade="6A", setter="Mia", feet="marked"), {
         94: "start", 99: "foot", 69: "hand", 43: "hand", 20: "finish"}),
     "holdWithoutLed": (42, ROUTE_42, {99: "start", 77: "hand", 7: "finish"}),
-    "chainEnds": (73, route(
-        "Corner to Corner",
+    "chainEnds": (73, board_route(
+        73, 90, "Corner to Corner",
         [(11, 8, "start"), (6, 4, "hand"), (0, 0, "finish")],
-        5, 1789600000, route_id=73, rev=85, grade="7B", feet="kicker"), {
+        5, grade="7B", feet="kicker"), {
         107: "start", 54: "hand", 0: "finish"}),
-    "onlyHoldsWithoutLeds": (80, route(
-        "Floor Traverse",
+    "onlyHoldsWithoutLeds": (80, board_route(
+        80, 98, "Floor Traverse",
         [(0, 10, "start"), (3, 9, "hand"), (6, 10, "hand"), (9, 9, "hand"),
          (11, 11, "finish")],
-        5, 1789700000, route_id=80, rev=86, grade="5+", feet="any"), {}),
+        5, grade="5+", feet="any"), {}),
     "routeIdZero": (0, route(
         "Draft",
         [(4, 8, "start"), (5, 5, "hand"), (4, 1, "finish")],
-        5, 1790100000, feet="marked"), {
+        5, stamp(REV_DELETE), feet="marked"), {
         100: "start", 66: "hand", 19: "finish"}),
-    "routeIdNonZero": (0x12345678, route(
-        "Byte Order",
+    "routeIdNonZero": (291, board_route(
+        291, 352, "Byte Order",
         [(8, 8, "start"), (9, 6, "hand"), (10, 3, "hand"), (9, 0, "finish")],
-        5, 1789800000, route_id=0x12345678, rev=90, grade="6B+"), {
+        5, grade="6B+"), {
         104: "start", 81: "hand", 37: "hand", 9: "finish"}),
 }
 
 # name -> (layout resource, route, expected outdated, expected missing)
 ROUTE_WARNINGS = {
-    "noWarning": ("layout.holdChanges.json", route(
-        "Clean Line",
-        [(1, 8, "start"), (1, 5, "hand"), (3, 3, "hand"), (2, 0, "finish")],
-        2, 1788800000, route_id=12, rev=40, grade="5+"), [], []),
+    "noWarning": ("layout.holdChanges.json", ROUTE_12, [], []),
     "outdated": ("layout.holdChanges.json", ROUTE_42, [(5, 6)], []),
-    "notOutdatedEqualRevision": ("layout.holdChanges.json", route(
-        "Heel Hook",
-        [(1, 7, "start"), (2, 10, "foot"), (3, 4, "hand"), (4, 0, "finish")],
-        3, 1789000000, route_id=21, rev=52, grade="6B"), [], []),
-    "missingHoldRemoved": ("layout.holdRemoved.json", route(
-        "Gone Pinch",
+    "notOutdatedEqualRevision": ("layout.holdChanges.json", ROUTE_21, [], []),
+    "missingHoldRemoved": ("layout.holdRemoved.json", board_route(
+        66, 82, "Gone Pinch",
         [(5, 8, "start"), (6, 2, "hand"), (7, 0, "finish")],
-        5, 1789900000, route_id=66, rev=83, grade="6C"), [], [(6, 2)]),
-    "missingOutsideGrid": ("layout.holdChanges.json", route(
-        "Old Arete",
+        5, grade="6C"), [], [(6, 2)]),
+    "missingOutsideGrid": ("layout.holdChanges.json", board_route(
+        67, 83, "Old Arete",
         [(3, 8, "start"), (12, 4, "hand"), (7, 0, "finish")],
-        5, 1789950000, route_id=67, rev=84, grade="7A"), [], [(12, 4)]),
-    "outdatedAndMissing": ("layout.holdRemoved.json", route(
-        "Everything Changed",
-        [(7, 0, "finish"), (5, 6, "hand"), (12, 5, "hand"), (6, 2, "hand"),
-         (8, 3, "hand"), (2, 8, "start")],
-        3, 1789100000, route_id=31, rev=60, grade="7A+"),
-        [(8, 3), (5, 6)], [(6, 2), (12, 5)]),
+        5, grade="7A"), [], [(12, 4)]),
+    "outdatedAndMissing": ("layout.holdRemoved.json", ROUTE_31,
+                           [(8, 3), (5, 6)], [(6, 2), (12, 5)]),
 }
 
 # ---------------------------------------------------------------------------
@@ -593,16 +635,16 @@ def generate():
                                                         "settingsRevision": 0},
         "0x04-getStatus.response.json": {
             "settingsRevision": SETTINGS_REVISION,
-            "routesRevision": 87,
+            "routesRevision": ROUTES_REVISION,
             "storageId": STORAGE_ID,
-            "routeCount": 143,
+            "routeCount": ROUTE_COUNT,
             "storageFree": 1043968,
             "brightness": BRIGHTNESS,
             "wall": {"source": "app", "routeId": 42, "wallSeq": WALL_SEQ},
             "uptime": 90210,
         },
-        "0x05-statusChanged.event.json": {"settingsRevision": 13, "routesRevision": 88,
-                                          "storageId": STORAGE_ID},
+        "0x05-statusChanged.event.json": {"settingsRevision": SETTINGS_REVISION,
+                                          "routesRevision": REV_SAVE, "storageId": STORAGE_ID},
         "0x06-disconnecting.event.json": {"reason": "idle"},
         "0x10-setLeds.response.json": {"limited": False, "wallSeq": WALL_SEQ},
         "0x10-setLeds.staleSettings.error.json": {"code": 203,
@@ -611,33 +653,34 @@ def generate():
         "0x11-setBrightness.response.json": {"limited": False},
         "0x12-wallChanged.event.json": {"source": "app", "routeId": 42, "wallSeq": WALL_SEQ,
                                         "brightness": BRIGHTNESS},
-        "0x20-syncIndex.request.json": {"since": 87},
+        "0x20-syncIndex.request.json": {"since": ROUTES_REVISION},
         "0x20-syncIndex.response.json": {
-            "routesRevision": 92,
+            "routesRevision": SYNC_REVISION,
             "reset": False,
-            "entries": [index_entry(ROUTE_42), {"routeId": 17, "rev": 89, "deleted": True}],
+            "entries": [{"routeId": 17, "rev": REV_DELETE_17, "deleted": True},
+                        index_entry(ROUTE_58)],
             "more": True,
         },
         "0x20-syncIndex.reset.response.json": {
-            "routesRevision": 92,
+            "routesRevision": SYNC_REVISION,
             "reset": True,
-            "entries": [index_entry(ROUTE_3), index_entry(ROUTE_42), index_entry(ROUTE_58)],
-            "more": False,
+            "entries": [index_entry(r) for r in (ROUTE_3, ROUTE_12, ROUTE_21, ROUTE_31)],
+            "more": True,
         },
         "0x21-getRoutes.request.json": {"routeIds": [42, 17, 103]},
         "0x21-getRoutes.response.json": {"routes": [ROUTE_42], "missing": [17, 103]},
         "0x22-saveRoute.request.json": {"token": 2718281828, "ownerId": "9c41e07ad2b35f18",
                                         "route": SAVE_ROUTE},
-        "0x22-saveRoute.response.json": {"routeId": 144, "rev": 88},
+        "0x22-saveRoute.response.json": {"routeId": NEW_ROUTE_ID, "rev": REV_SAVE},
         "0x22-saveRoute.invalidPosition.error.json": {
             "code": 201, "message": "holds[1]: c=12 r=3 is outside the grid"},
-        "0x23-updateRoute.request.json": {"token": 1414213562, "routeId": 144, "baseRev": 88,
-                                          "route": UPDATE_ROUTE},
-        "0x23-updateRoute.response.json": {"rev": 92},
-        "0x23-updateRoute.conflict.error.json": {"code": 205,
-                                                 "message": "route 144 is at rev 90, baseRev 88"},
-        "0x24-deleteRoute.request.json": {"token": 1732050807, "routeId": 144},
-        "0x24-deleteRoute.response.json": {"rev": 93},
+        "0x23-updateRoute.request.json": {"token": 1414213562, "routeId": NEW_ROUTE_ID,
+                                          "baseRev": REV_SAVE, "route": UPDATE_ROUTE},
+        "0x23-updateRoute.response.json": {"rev": REV_UPDATE},
+        "0x23-updateRoute.conflict.error.json": {
+            "code": 205, "message": f"route {NEW_ROUTE_ID} changed since baseRev {REV_SAVE}"},
+        "0x24-deleteRoute.request.json": {"token": 1732050807, "routeId": NEW_ROUTE_ID},
+        "0x24-deleteRoute.response.json": {"rev": REV_DELETE},
         "0x30-xferBegin.request.json": {"resource": "photo", "offset": 0,
                                         "chunkSize": CHUNK_SIZE},
         "0x30-xferBegin.response.json": {"transferId": TRANSFER_ID, "size": len(photo),
@@ -669,7 +712,7 @@ def generate():
         (0x50, 103, "unknown type 0x50"),
         (0x11, 104, "required field value missing"),
         (0x22, 105, "length 5120 above maxMessage 4096"),
-        (0x24, 202, "route 144 does not exist"),
+        (0x24, 202, f"route {NEW_ROUTE_ID} does not exist"),
         (0x30, 204, "unknown resource thumbnail"),
         (0x30, 301, "transfer 3 is running on this connection"),
         (0x10, 302, "board not configured"),
@@ -1078,8 +1121,8 @@ def run_checks(files):
     ends = disk["derived/route-to-frame/chainEnds.bin"]
     ck.check("route-to-frame: chainEnds lights LED 0 and LED 107",
              ends[7:10] != b"\0\0\0" and ends[7 + 3 * 107:] != b"\0\0\0")
-    ck.check("route-to-frame: routeIdNonZero carries 0x12345678 as 78 56 34 12",
-             disk["derived/route-to-frame/routeIdNonZero.bin"][3:7] == bytes.fromhex("78563412"))
+    ck.check("route-to-frame: routeIdNonZero carries 291 = 0x0123 as 23 01 00 00",
+             disk["derived/route-to-frame/routeIdNonZero.bin"][3:7] == bytes.fromhex("23010000"))
     ck.check("route-to-frame: routeIdZero carries routeId 0 and a route without routeId/rev",
              disk["derived/route-to-frame/routeIdZero.bin"][3:7] == b"\0\0\0\0"
              and "routeId" not in load("derived/route-to-frame/routeIdZero.json")["route"])
@@ -1180,6 +1223,10 @@ def run_checks(files):
     ck.check("getRoutes: at most maxBatch IDs, routes + missing = requested IDs",
              len(gr_req) <= MAX_BATCH
              and sorted([r["routeId"] for r in gr["routes"]] + gr["missing"]) == sorted(gr_req))
+
+    # -- one board: all fixtures describe the same board and one timeline --
+    for name, ok, detail in one_board_checks(load, disk):
+        ck.check(name, ok, detail)
 
     # -- wall state --
     status = load("0x04-getStatus.response.json")
@@ -1294,6 +1341,109 @@ def run_checks(files):
              and [v["v"] for v in grades["v"]] == [f"V{i}" for i in range(18)])
 
     return ck
+
+
+def one_board_checks(load, disk):
+    """Consistency of all fixtures as one board with one timeline. Error files,
+    the unconfigured getSettings, the reset response and xferAbort are
+    alternative outcomes and only have to fit the same board."""
+    results = []
+    settings = load("0x03-getSettings.response.json")
+    status = load("0x04-getStatus.response.json")
+    changed = load("0x05-statusChanged.event.json")
+    save_req = load("0x22-saveRoute.request.json")
+    save = load("0x22-saveRoute.response.json")
+    upd_req = load("0x23-updateRoute.request.json")
+    upd = load("0x23-updateRoute.response.json")
+    del_req = load("0x24-deleteRoute.request.json")
+    dele = load("0x24-deleteRoute.response.json")
+    sync_req = load("0x20-syncIndex.request.json")
+    sync = load("0x20-syncIndex.response.json")
+    reset = load("0x20-syncIndex.reset.response.json")
+    get_req = load("0x21-getRoutes.request.json")
+    get = load("0x21-getRoutes.response.json")
+
+    # every board route that appears anywhere, in full
+    sources = [("getRoutes", r) for r in get["routes"]]
+    for rel in sorted(disk):
+        if rel.startswith("derived/") and rel.endswith(".json"):
+            r = load(rel)["route"]
+            if "routeId" in r:
+                sources.append((rel, r))
+    full, bad = {}, []
+    for src, r in sources:
+        if full.setdefault(r["routeId"], r) != r:
+            bad.append(f"{src}: route {r['routeId']} differs from another file")
+    entries = sync["entries"] + reset["entries"]
+    for e in entries:
+        if not e.get("deleted") and e["routeId"] in full and e != index_entry(full[e["routeId"]]):
+            bad.append(f"index entry {e['routeId']} differs from the full route")
+    results.append(("one board: a routeId means the same route in every file "
+                    "(getRoutes, syncIndex, derived/)", not bad, "; ".join(bad)))
+
+    # one revision per change
+    current = {rid: r["rev"] for rid, r in full.items()}
+    tombstones = {e["routeId"]: e["rev"] for e in entries if e.get("deleted")}
+    for e in entries:
+        current.setdefault(e["routeId"], e["rev"])
+    events = sorted(list(current.values()) + [save["rev"], upd["rev"], dele["rev"]])
+    results.append(("one board: every change has its own revision",
+                    len(events) == len(set(events)), f"{len(events)} revisions"))
+
+    # the story in order
+    story = [
+        ("syncIndex.since = getStatus.routesRevision", sync_req["since"] == status["routesRevision"]),
+        ("routes seen by getStatus have rev <= its routesRevision, later ones are in syncIndex",
+         all(rev <= status["routesRevision"] or rid in {e["routeId"] for e in sync["entries"]}
+             or rev > sync["entries"][-1]["rev"] for rid, rev in current.items())),
+        ("statusChanged.routesRevision = saveRoute.rev = updateRoute.baseRev",
+         changed["routesRevision"] == save["rev"] == upd_req["baseRev"] > status["routesRevision"]),
+        ("save < update <= syncIndex.routesRevision < delete",
+         save["rev"] < upd["rev"] <= sync["routesRevision"] < dele["rev"]
+         and reset["routesRevision"] == sync["routesRevision"]),
+        ("updateRoute and deleteRoute address the saved route",
+         upd_req["routeId"] == del_req["routeId"] == save["routeId"]
+         and upd_req["route"]["createdAt"] == save_req["route"]["createdAt"]),
+        ("the new routeId is above every earlier routeId; routeCount < routeId",
+         all(rid < save["routeId"] for rid, rev in current.items() if rev < save["rev"])
+         and all(rid < save["routeId"] for rid in get["missing"])
+         and status["routeCount"] < save["routeId"]),
+        ("a route's rev is at least its routeId (IDs are given in order, each creation is a "
+         "revision); routeCount <= routesRevision",
+         all(rev >= rid for rid, rev in current.items())
+         and save["rev"] >= save["routeId"] and status["routeCount"] <= status["routesRevision"]),
+        ("getRoutes: missing IDs are deleted routes, 17 is a tombstone in syncIndex",
+         17 in tombstones and set(get["missing"]) <= set(get_req["routeIds"])
+         and not set(get["missing"]) & set(full)),
+        ("syncIndex page: every known change with since < rev <= last entry is on it",
+         all(rid in {e["routeId"] for e in sync["entries"]}
+             for rid, rev in list(current.items()) + list(tombstones.items())
+             if sync_req["since"] < rev <= sync["entries"][-1]["rev"])),
+        ("reset page: the known routes with the lowest revisions, none skipped",
+         all(rid in {e["routeId"] for e in reset["entries"]}
+             for rid, rev in current.items()
+             if rid not in tombstones and rev <= reset["entries"][-1]["rev"])),
+        ("the wall shows an existing route", status["wall"]["routeId"] in full),
+        ("settingsRevision and storageId the same in getSettings, getStatus, statusChanged",
+         settings["settingsRevision"] == status["settingsRevision"] == changed["settingsRevision"]
+         and status["storageId"] == changed["storageId"]),
+    ]
+    failed = [name for name, ok in story if not ok]
+    results.append(("one board: story in order (getStatus -> save -> syncIndex -> update -> "
+                    f"delete), {len(story)} conditions", not failed, "; ".join(failed)))
+
+    # timestamps: later creation -> later createdAt, later revision -> later updatedAt
+    routes = list(full.values()) + [dict(save_req["route"], routeId=save["routeId"], rev=save["rev"]),
+                                    dict(upd_req["route"], routeId=save["routeId"], rev=upd["rev"])]
+    by_id = sorted({(r["routeId"], r["createdAt"]) for r in routes})
+    by_rev = sorted((r["rev"], r["updatedAt"]) for r in routes)
+    results.append(("one board: createdAt grows with routeId, updatedAt with rev, "
+                    "createdAt <= updatedAt",
+                    all(a[1] < b[1] for a, b in zip(by_id, by_id[1:]))
+                    and all(a[1] < b[1] for a, b in zip(by_rev, by_rev[1:]))
+                    and all(r["createdAt"] <= r["updatedAt"] for r in routes),
+                    f"{len(by_id)} routes"))
+    return results
 
 
 INT_MAX = 0xFFFFFFFF    # integers without a stated limit are taken at the uint32 maximum

@@ -5,11 +5,11 @@
   "routeId": 73,
   "route": {
     "routeId": 73,
-    "rev": 85,
+    "rev": 90,
     "name": "Corner to Corner",
     "grade": "7B",
-    "createdAt": 1789600000,
-    "updatedAt": 1789600000,
+    "createdAt": 1779832000,
+    "updatedAt": 1779940000,
     "holdsRevision": 5,
     "feet": "kicker",
     "holds": [

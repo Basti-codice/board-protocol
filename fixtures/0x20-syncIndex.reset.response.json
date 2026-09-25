@@ -1,5 +1,5 @@
 {
-  "routesRevision": 92,
+  "routesRevision": 368,
   "reset": true,
   "entries": [
     {
@@ -8,44 +8,42 @@
       "name": "Warm-up Ladder",
       "grade": "5",
       "setter": "Mia",
-      "createdAt": 1788500000,
-      "updatedAt": 1788500000,
+      "createdAt": 1776808000,
+      "updatedAt": 1776952000,
       "holdsRevision": 0,
       "feet": "any",
       "holdCount": 5
     },
     {
-      "routeId": 42,
-      "rev": 88,
-      "name": "Sunrise",
-      "grade": "6A+",
-      "setter": "Sebastian",
-      "createdAt": 1790000000,
-      "updatedAt": 1790086400,
-      "holdsRevision": 4,
-      "feet": "marked",
-      "tags": [
-        "crimpy",
-        "slab"
-      ],
+      "routeId": 12,
+      "rev": 40,
+      "name": "Clean Line",
+      "grade": "5+",
+      "createdAt": 1777204000,
+      "updatedAt": 1778140000,
+      "holdsRevision": 2,
       "holdCount": 4
     },
     {
-      "routeId": 58,
-      "rev": 91,
-      "name": "Grüne Leiste",
-      "grade": "6C+",
-      "setter": "Jörg",
-      "createdAt": 1789200000,
-      "updatedAt": 1789286400,
-      "holdsRevision": 5,
-      "feet": "any",
-      "tags": [
-        "crimpy",
-        "technical"
-      ],
+      "routeId": 21,
+      "rev": 52,
+      "name": "Heel Hook",
+      "grade": "6B",
+      "createdAt": 1777600000,
+      "updatedAt": 1778572000,
+      "holdsRevision": 3,
+      "holdCount": 4
+    },
+    {
+      "routeId": 31,
+      "rev": 60,
+      "name": "Everything Changed",
+      "grade": "7A+",
+      "createdAt": 1778032000,
+      "updatedAt": 1778860000,
+      "holdsRevision": 3,
       "holdCount": 6
     }
   ],
-  "more": false
+  "more": true
 }
