@@ -1,0 +1,50 @@
+{
+  "layout": "resources/layout.holdChanges.json",
+  "route": {
+    "routeId": 42,
+    "rev": 88,
+    "name": "Sunrise",
+    "grade": "6A+",
+    "setter": "Sebastian",
+    "description": "Left heel on the start jug.",
+    "createdAt": 1790000000,
+    "updatedAt": 1790086400,
+    "holdsRevision": 4,
+    "feet": "marked",
+    "tags": [
+      "crimpy",
+      "slab"
+    ],
+    "holds": [
+      {
+        "c": 3,
+        "r": 8,
+        "role": "start"
+      },
+      {
+        "c": 5,
+        "r": 6,
+        "role": "hand"
+      },
+      {
+        "c": 4,
+        "r": 10,
+        "role": "foot"
+      },
+      {
+        "c": 7,
+        "r": 0,
+        "role": "finish"
+      }
+    ]
+  },
+  "expected": {
+    "outdated": [
+      {
+        "c": 5,
+        "r": 6
+      }
+    ],
+    "missing": []
+  }
+}

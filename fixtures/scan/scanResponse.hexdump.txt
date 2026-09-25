@@ -1,0 +1,9 @@
+# scanResponse.bin: manufacturer-specific data of the scan response
+# (PROTOCOL.md §2.3), 8 bytes, companyId included
+#
+# offset: bytes  # meaning
+#
+0000: ff ff                                            # companyId = 0xffff (uint16 LE), unregistered use
+0002: a4 cf 12 8e                                      # boardId = a4cf128e, same bytes as in hello
+0006: 01                                               # protocolVersion = 1
+0007: 02                                               # freeSlots = 2

@@ -1,0 +1,30 @@
+{
+  "layout": "resources/layout.holdChanges.json",
+  "settings": "0x03-getSettings.response.json",
+  "settingsRevision": 12,
+  "routeId": 0,
+  "route": {
+    "name": "Draft",
+    "createdAt": 1790100000,
+    "updatedAt": 1790100000,
+    "holdsRevision": 5,
+    "feet": "marked",
+    "holds": [
+      {
+        "c": 4,
+        "r": 8,
+        "role": "start"
+      },
+      {
+        "c": 5,
+        "r": 5,
+        "role": "hand"
+      },
+      {
+        "c": 4,
+        "r": 1,
+        "role": "finish"
+      }
+    ]
+  }
+}

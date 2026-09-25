@@ -1,0 +1,29 @@
+{
+  "token": 2718281828,
+  "ownerId": "9c41e07ad2b35f18",
+  "route": {
+    "name": "Sunrise",
+    "grade": "6A+",
+    "setter": "Sebastian",
+    "description": "Left heel on the start jug.",
+    "createdAt": 1790000000,
+    "updatedAt": 1790000000,
+    "holdsRevision": 5,
+    "feet": "marked",
+    "tags": [
+      "crimpy"
+    ],
+    "holds": [
+      {
+        "c": 3,
+        "r": 8,
+        "role": "start"
+      },
+      {
+        "c": 7,
+        "r": 0,
+        "role": "finish"
+      }
+    ]
+  }
+}

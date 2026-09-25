@@ -1,0 +1,66 @@
+{
+  "layout": "resources/layout.holdRemoved.json",
+  "route": {
+    "routeId": 31,
+    "rev": 60,
+    "name": "Everything Changed",
+    "grade": "7A+",
+    "createdAt": 1789100000,
+    "updatedAt": 1789100000,
+    "holdsRevision": 3,
+    "holds": [
+      {
+        "c": 7,
+        "r": 0,
+        "role": "finish"
+      },
+      {
+        "c": 5,
+        "r": 6,
+        "role": "hand"
+      },
+      {
+        "c": 12,
+        "r": 5,
+        "role": "hand"
+      },
+      {
+        "c": 6,
+        "r": 2,
+        "role": "hand"
+      },
+      {
+        "c": 8,
+        "r": 3,
+        "role": "hand"
+      },
+      {
+        "c": 2,
+        "r": 8,
+        "role": "start"
+      }
+    ]
+  },
+  "expected": {
+    "outdated": [
+      {
+        "c": 8,
+        "r": 3
+      },
+      {
+        "c": 5,
+        "r": 6
+      }
+    ],
+    "missing": [
+      {
+        "c": 6,
+        "r": 2
+      },
+      {
+        "c": 12,
+        "r": 5
+      }
+    ]
+  }
+}

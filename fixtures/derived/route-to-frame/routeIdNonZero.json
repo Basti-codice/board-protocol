@@ -1,0 +1,37 @@
+{
+  "layout": "resources/layout.holdChanges.json",
+  "settings": "0x03-getSettings.response.json",
+  "settingsRevision": 12,
+  "routeId": 305419896,
+  "route": {
+    "routeId": 305419896,
+    "rev": 90,
+    "name": "Byte Order",
+    "grade": "6B+",
+    "createdAt": 1789800000,
+    "updatedAt": 1789800000,
+    "holdsRevision": 5,
+    "holds": [
+      {
+        "c": 8,
+        "r": 8,
+        "role": "start"
+      },
+      {
+        "c": 9,
+        "r": 6,
+        "role": "hand"
+      },
+      {
+        "c": 10,
+        "r": 3,
+        "role": "hand"
+      },
+      {
+        "c": 9,
+        "r": 0,
+        "role": "finish"
+      }
+    ]
+  }
+}

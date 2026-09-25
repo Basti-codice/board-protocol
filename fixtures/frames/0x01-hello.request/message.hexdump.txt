@@ -1,0 +1,17 @@
+# 0x01-hello.request/message.bin: complete message incl. 5-byte header (PROTOCOL.md §4), 50 bytes
+# MTU 23: 20 bytes per packet, 3 packet(s) mtu23/000.bin to 002.bin
+# MTU 247: 244 bytes per packet, 1 packet(s) mtu247/000.bin to 000.bin
+#
+# offset: bytes  # meaning
+#
+# ---- packet mtu23/000.bin, mtu247/000.bin
+0000: 01                                               # type = 0x01 hello
+0001: 01                                               # id = 1
+0002: 00                                               # flags = 0x00: payload JSON, kind request
+0003: 2d 00                                            # length = 45 (uint16 LE)
+0005: 7b 22 70 72 6f 74 6f 63 6f 6c 56 65 72 73 69     # payload, JSON (UTF-8)  |{"protocolVersi|
+# ---- packet mtu23/001.bin
+0014: 6f 6e 22 3a 31 2c 22 63 6c 69 65 6e 74 22 3a 22  # |on":1,"client":"|
+0024: 6b 62 2d 61                                      # |kb-a|
+# ---- packet mtu23/002.bin
+0028: 70 70 2f 30 2e 33 2e 31 22 7d                    # |pp/0.3.1"}|

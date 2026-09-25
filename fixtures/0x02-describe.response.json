@@ -1,0 +1,14 @@
+{
+  "boardId": "a4cf128e",
+  "firmware": "1.0.0",
+  "hardware": "esp32-wroom-32",
+  "capabilities": [
+    "leds",
+    "routes",
+    "photo"
+  ],
+  "maxMessage": 4096,
+  "maxChunk": 512,
+  "maxRouteHolds": 64,
+  "maxBatch": 10
+}

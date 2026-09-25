@@ -1,0 +1,38 @@
+{
+  "layout": "resources/layout.holdChanges.json",
+  "route": {
+    "routeId": 67,
+    "rev": 84,
+    "name": "Old Arete",
+    "grade": "7A",
+    "createdAt": 1789950000,
+    "updatedAt": 1789950000,
+    "holdsRevision": 5,
+    "holds": [
+      {
+        "c": 3,
+        "r": 8,
+        "role": "start"
+      },
+      {
+        "c": 12,
+        "r": 4,
+        "role": "hand"
+      },
+      {
+        "c": 7,
+        "r": 0,
+        "role": "finish"
+      }
+    ]
+  },
+  "expected": {
+    "outdated": [],
+    "missing": [
+      {
+        "c": 12,
+        "r": 4
+      }
+    ]
+  }
+}

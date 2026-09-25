@@ -1,0 +1,49 @@
+# 0x31-xferChunk.event/message.bin: complete message incl. 5-byte header (PROTOCOL.md §4), 244 bytes
+# MTU 23: 20 bytes per packet, 13 packet(s) mtu23/000.bin to 012.bin
+# MTU 247: 244 bytes per packet, 1 packet(s) mtu247/000.bin to 000.bin
+#
+# offset: bytes  # meaning
+#
+# ---- packet mtu23/000.bin, mtu247/000.bin
+0000: 31                                               # type = 0x31 xferChunk
+0001: 00                                               # id = 0
+0002: 05                                               # flags = 0x05: payload binary, kind event
+0003: ef 00                                            # length = 239 (uint16 LE)
+0005: 03                                               # transferId = 3
+0006: 00 00 00 00                                      # offset = 0 (uint32 LE)
+000a: 89 50 4e 47 0d 0a 1a 0a 00 00                    # data, 234 bytes  |.PNG......|
+# ---- packet mtu23/001.bin
+0014: 00 0d 49 48 44 52 00 00 00 a0 00 00 00 c4 08 02  # |..IHDR..........|
+0024: 00 00 00 97                                      # |....|
+# ---- packet mtu23/002.bin
+0028: c8 bd 36 00 00 01 37 49 44 41 54 78 da ed d1 01  # |..6...7IDATx....|
+0038: 0d 00 00 0c                                      # |....|
+# ---- packet mtu23/003.bin
+003c: c2 30 a4 23 1d 1b cf d3 49 58 53 bd 2e 16 00 16  # |.0.#....IXS.....|
+004c: 60 01 16 60                                      # |`..`|
+# ---- packet mtu23/004.bin
+0050: 01 16 60 01 06 2c c0 02 2c c0 02 2c c0 02 0c 58  # |..`..,..,..,...X|
+0060: 80 05 58 80                                      # |..X.|
+# ---- packet mtu23/005.bin
+0064: 05 58 80 05 58 80 01 0b b0 00 0b b0 00 0b b0 00  # |.X..X...........|
+0074: 03 16 60 01                                      # |..`.|
+# ---- packet mtu23/006.bin
+0078: 16 60 01 16 60 01 06 2c c0 02 2c c0 02 2c c0 02  # |.`..`..,..,..,..|
+0088: 2c c0 80 05                                      # |,...|
+# ---- packet mtu23/007.bin
+008c: 58 80 05 58 80 05 58 80 01 0b b0 00 0b b0 00 0b  # |X..X..X.........|
+009c: b0 00 03 16                                      # |....|
+# ---- packet mtu23/008.bin
+00a0: 60 01 16 60 01 16 60 01 16 60 c0 02 2c c0 02 2c  # |`..`..`..`..,..,|
+00b0: c0 02 2c c0                                      # |..,.|
+# ---- packet mtu23/009.bin
+00b4: 80 05 58 80 05 58 80 05 58 80 05 18 b0 00 0b b0  # |..X..X..X.......|
+00c4: 00 0b b0 00                                      # |....|
+# ---- packet mtu23/010.bin
+00c8: 0b 30 60 01 16 60 01 16 60 01 16 60 c0 02 2c c0  # |.0`..`..`..`..,.|
+00d8: 02 2c c0 02                                      # |.,..|
+# ---- packet mtu23/011.bin
+00dc: 2c c0 02 0c 58 80 05 58 80 05 58 80 05 18 b0 00  # |,...X..X..X.....|
+00ec: 0b b0 00 0b                                      # |....|
+# ---- packet mtu23/012.bin
+00f0: b0 00 0b 30                                      # |...0|

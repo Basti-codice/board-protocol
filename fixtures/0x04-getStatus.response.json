@@ -1,0 +1,14 @@
+{
+  "settingsRevision": 12,
+  "routesRevision": 87,
+  "storageId": "5be0a913",
+  "routeCount": 143,
+  "storageFree": 1043968,
+  "brightness": 160,
+  "wall": {
+    "source": "app",
+    "routeId": 42,
+    "wallSeq": 3108
+  },
+  "uptime": 90210
+}

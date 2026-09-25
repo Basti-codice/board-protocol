@@ -1,0 +1,54 @@
+{
+  "layout": "resources/layout.holdChanges.json",
+  "settings": "0x03-getSettings.response.json",
+  "settingsRevision": 12,
+  "routeId": 58,
+  "route": {
+    "routeId": 58,
+    "rev": 91,
+    "name": "Grüne Leiste",
+    "grade": "6C+",
+    "setter": "Jörg",
+    "description": "Stay low through the middle.",
+    "createdAt": 1789200000,
+    "updatedAt": 1789286400,
+    "holdsRevision": 5,
+    "feet": "any",
+    "tags": [
+      "crimpy",
+      "technical"
+    ],
+    "holds": [
+      {
+        "c": 2,
+        "r": 7,
+        "role": "start"
+      },
+      {
+        "c": 4,
+        "r": 7,
+        "role": "start"
+      },
+      {
+        "c": 3,
+        "r": 5,
+        "role": "hand"
+      },
+      {
+        "c": 6,
+        "r": 4,
+        "role": "hand"
+      },
+      {
+        "c": 5,
+        "r": 2,
+        "role": "hand"
+      },
+      {
+        "c": 6,
+        "r": 0,
+        "role": "finish"
+      }
+    ]
+  }
+}

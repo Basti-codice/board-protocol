@@ -1,0 +1,38 @@
+{
+  "layout": "resources/layout.holdChanges.json",
+  "route": {
+    "routeId": 21,
+    "rev": 52,
+    "name": "Heel Hook",
+    "grade": "6B",
+    "createdAt": 1789000000,
+    "updatedAt": 1789000000,
+    "holdsRevision": 3,
+    "holds": [
+      {
+        "c": 1,
+        "r": 7,
+        "role": "start"
+      },
+      {
+        "c": 2,
+        "r": 10,
+        "role": "foot"
+      },
+      {
+        "c": 3,
+        "r": 4,
+        "role": "hand"
+      },
+      {
+        "c": 4,
+        "r": 0,
+        "role": "finish"
+      }
+    ]
+  },
+  "expected": {
+    "outdated": [],
+    "missing": []
+  }
+}

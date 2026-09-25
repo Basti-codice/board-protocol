@@ -1,0 +1,38 @@
+{
+  "layout": "resources/layout.holdChanges.json",
+  "route": {
+    "routeId": 12,
+    "rev": 40,
+    "name": "Clean Line",
+    "grade": "5+",
+    "createdAt": 1788800000,
+    "updatedAt": 1788800000,
+    "holdsRevision": 2,
+    "holds": [
+      {
+        "c": 1,
+        "r": 8,
+        "role": "start"
+      },
+      {
+        "c": 1,
+        "r": 5,
+        "role": "hand"
+      },
+      {
+        "c": 3,
+        "r": 3,
+        "role": "hand"
+      },
+      {
+        "c": 2,
+        "r": 0,
+        "role": "finish"
+      }
+    ]
+  },
+  "expected": {
+    "outdated": [],
+    "missing": []
+  }
+}

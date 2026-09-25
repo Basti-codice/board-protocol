@@ -1,0 +1,43 @@
+{
+  "layout": "resources/layout.holdChanges.json",
+  "settings": "0x03-getSettings.response.json",
+  "settingsRevision": 12,
+  "routeId": 80,
+  "route": {
+    "routeId": 80,
+    "rev": 86,
+    "name": "Floor Traverse",
+    "grade": "5+",
+    "createdAt": 1789700000,
+    "updatedAt": 1789700000,
+    "holdsRevision": 5,
+    "feet": "any",
+    "holds": [
+      {
+        "c": 0,
+        "r": 10,
+        "role": "start"
+      },
+      {
+        "c": 3,
+        "r": 9,
+        "role": "hand"
+      },
+      {
+        "c": 6,
+        "r": 10,
+        "role": "hand"
+      },
+      {
+        "c": 9,
+        "r": 9,
+        "role": "hand"
+      },
+      {
+        "c": 11,
+        "r": 11,
+        "role": "finish"
+      }
+    ]
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "routesRevision": 92,
+  "reset": true,
+  "entries": [
+    {
+      "routeId": 3,
+      "rev": 7,
+      "name": "Warm-up Ladder",
+      "grade": "5",
+      "setter": "Mia",
+      "createdAt": 1788500000,
+      "updatedAt": 1788500000,
+      "holdsRevision": 0,
+      "feet": "any",
+      "holdCount": 5
+    },
+    {
+      "routeId": 42,
+      "rev": 88,
+      "name": "Sunrise",
+      "grade": "6A+",
+      "setter": "Sebastian",
+      "createdAt": 1790000000,
+      "updatedAt": 1790086400,
+      "holdsRevision": 4,
+      "feet": "marked",
+      "tags": [
+        "crimpy",
+        "slab"
+      ],
+      "holdCount": 4
+    },
+    {
+      "routeId": 58,
+      "rev": 91,
+      "name": "Grüne Leiste",
+      "grade": "6C+",
+      "setter": "Jörg",
+      "createdAt": 1789200000,
+      "updatedAt": 1789286400,
+      "holdsRevision": 5,
+      "feet": "any",
+      "tags": [
+        "crimpy",
+        "technical"
+      ],
+      "holdCount": 6
+    }
+  ],
+  "more": false
+}

@@ -1,0 +1,115 @@
+# ordinary.bin: expected setLeds payload (PROTOCOL.md §9.7) for ordinary.json, 331 bytes
+#
+# offset: bytes  # meaning
+#
+0000: 0c 00                                            # settingsRevision = 12 (uint16 LE)
+0002: 00                                               # reserved = 0
+0003: 3a 00 00 00                                      # routeId = 58 = 0x0000003a (uint32 LE)
+0007: 00 00 00                                         # led   0  c0 r0   off
+000a: 00 00 00                                         # led   1  c1 r0   off
+000d: 00 00 00                                         # led   2  c2 r0   off
+0010: 00 00 00                                         # led   3  c3 r0   off
+0013: 00 00 00                                         # led   4  c4 r0   off
+0016: 00 00 00                                         # led   5  c5 r0   off
+0019: aa 00 ff                                         # led   6  c6 r0   #aa00ff finish
+001c: 00 00 00                                         # led   7  c7 r0   off
+001f: 00 00 00                                         # led   8  c8 r0   off
+0022: 00 00 00                                         # led   9  c9 r0   off
+0025: 00 00 00                                         # led  10  c10 r0  off
+0028: 00 00 00                                         # led  11  c11 r0  off
+002b: 00 00 00                                         # led  12  c11 r1  off
+002e: 00 00 00                                         # led  13  c10 r1  off
+0031: 00 00 00                                         # led  14  c9 r1   off
+0034: 00 00 00                                         # led  15  c8 r1   off
+0037: 00 00 00                                         # led  16  c7 r1   off
+003a: 00 00 00                                         # led  17  c6 r1   off
+003d: 00 00 00                                         # led  18  c5 r1   off
+0040: 00 00 00                                         # led  19  c4 r1   off
+0043: 00 00 00                                         # led  20  c3 r1   off
+0046: 00 00 00                                         # led  21  c2 r1   off
+0049: 00 00 00                                         # led  22  c1 r1   off
+004c: 00 00 00                                         # led  23  c0 r1   off
+004f: 00 00 00                                         # led  24  c0 r2   off
+0052: 00 00 00                                         # led  25  c1 r2   off
+0055: 00 00 00                                         # led  26  c2 r2   off
+0058: 00 00 00                                         # led  27  c3 r2   off
+005b: 00 00 00                                         # led  28  c4 r2   off
+005e: 29 62 ff                                         # led  29  c5 r2   #2962ff hand
+0061: 00 00 00                                         # led  30  c6 r2   off
+0064: 00 00 00                                         # led  31  c7 r2   off
+0067: 00 00 00                                         # led  32  c8 r2   off
+006a: 00 00 00                                         # led  33  c9 r2   off
+006d: 00 00 00                                         # led  34  c10 r2  off
+0070: 00 00 00                                         # led  35  c11 r2  off
+0073: 00 00 00                                         # led  36  c11 r3  off
+0076: 00 00 00                                         # led  37  c10 r3  off
+0079: 00 00 00                                         # led  38  c9 r3   off
+007c: 00 00 00                                         # led  39  c8 r3   off
+007f: 00 00 00                                         # led  40  c7 r3   off
+0082: 00 00 00                                         # led  41  c6 r3   off
+0085: 00 00 00                                         # led  42  c5 r3   off
+0088: 00 00 00                                         # led  43  c4 r3   off
+008b: 00 00 00                                         # led  44  c3 r3   off
+008e: 00 00 00                                         # led  45  c2 r3   off
+0091: 00 00 00                                         # led  46  c1 r3   off
+0094: 00 00 00                                         # led  47  c0 r3   off
+0097: 00 00 00                                         # led  48  c0 r4   off
+009a: 00 00 00                                         # led  49  c1 r4   off
+009d: 00 00 00                                         # led  50  c2 r4   off
+00a0: 00 00 00                                         # led  51  c3 r4   off
+00a3: 00 00 00                                         # led  52  c4 r4   off
+00a6: 00 00 00                                         # led  53  c5 r4   off
+00a9: 29 62 ff                                         # led  54  c6 r4   #2962ff hand
+00ac: 00 00 00                                         # led  55  c7 r4   off
+00af: 00 00 00                                         # led  56  c8 r4   off
+00b2: 00 00 00                                         # led  57  c9 r4   off
+00b5: 00 00 00                                         # led  58  c10 r4  off
+00b8: 00 00 00                                         # led  59  c11 r4  off
+00bb: 00 00 00                                         # led  60  c11 r5  off
+00be: 00 00 00                                         # led  61  c10 r5  off
+00c1: 00 00 00                                         # led  62  c9 r5   off
+00c4: 00 00 00                                         # led  63  c8 r5   off
+00c7: 00 00 00                                         # led  64  c7 r5   off
+00ca: 00 00 00                                         # led  65  c6 r5   off
+00cd: 00 00 00                                         # led  66  c5 r5   off
+00d0: 00 00 00                                         # led  67  c4 r5   off
+00d3: 29 62 ff                                         # led  68  c3 r5   #2962ff hand
+00d6: 00 00 00                                         # led  69  c2 r5   off
+00d9: 00 00 00                                         # led  70  c1 r5   off
+00dc: 00 00 00                                         # led  71  c0 r5   off
+00df: 00 00 00                                         # led  72  c0 r6   off
+00e2: 00 00 00                                         # led  73  c1 r6   off
+00e5: 00 00 00                                         # led  74  c2 r6   off
+00e8: 00 00 00                                         # led  75  c3 r6   off
+00eb: 00 00 00                                         # led  76  c4 r6   off
+00ee: 00 00 00                                         # led  77  c5 r6   off
+00f1: 00 00 00                                         # led  78  c6 r6   off
+00f4: 00 00 00                                         # led  79  c7 r6   off
+00f7: 00 00 00                                         # led  80  c8 r6   off
+00fa: 00 00 00                                         # led  81  c9 r6   off
+00fd: 00 00 00                                         # led  82  c10 r6  off
+0100: 00 00 00                                         # led  83  c11 r6  off
+0103: 00 00 00                                         # led  84  c11 r7  off
+0106: 00 00 00                                         # led  85  c10 r7  off
+0109: 00 00 00                                         # led  86  c9 r7   off
+010c: 00 00 00                                         # led  87  c8 r7   off
+010f: 00 00 00                                         # led  88  c7 r7   off
+0112: 00 00 00                                         # led  89  c6 r7   off
+0115: 00 00 00                                         # led  90  c5 r7   off
+0118: 00 c8 53                                         # led  91  c4 r7   #00c853 start
+011b: 00 00 00                                         # led  92  c3 r7   off
+011e: 00 c8 53                                         # led  93  c2 r7   #00c853 start
+0121: 00 00 00                                         # led  94  c1 r7   off
+0124: 00 00 00                                         # led  95  c0 r7   off
+0127: 00 00 00                                         # led  96  c0 r8   off
+012a: 00 00 00                                         # led  97  c1 r8   off
+012d: 00 00 00                                         # led  98  c2 r8   off
+0130: 00 00 00                                         # led  99  c3 r8   off
+0133: 00 00 00                                         # led 100  c4 r8   off
+0136: 00 00 00                                         # led 101  c5 r8   off
+0139: 00 00 00                                         # led 102  c6 r8   off
+013c: 00 00 00                                         # led 103  c7 r8   off
+013f: 00 00 00                                         # led 104  c8 r8   off
+0142: 00 00 00                                         # led 105  c9 r8   off
+0145: 00 00 00                                         # led 106  c10 r8  off
+0148: 00 00 00                                         # led 107  c11 r8  off

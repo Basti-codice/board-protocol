@@ -1,0 +1,160 @@
+{
+  "font": [
+    "4",
+    "4+",
+    "5",
+    "5+",
+    "6A",
+    "6A+",
+    "6B",
+    "6B+",
+    "6C",
+    "6C+",
+    "7A",
+    "7A+",
+    "7B",
+    "7B+",
+    "7C",
+    "7C+",
+    "8A",
+    "8A+",
+    "8B",
+    "8B+",
+    "8C",
+    "8C+",
+    "9A"
+  ],
+  "v": [
+    {
+      "v": "V0",
+      "shownFor": [
+        "4",
+        "4+"
+      ],
+      "stored": "4"
+    },
+    {
+      "v": "V1",
+      "shownFor": [
+        "5"
+      ],
+      "stored": "5"
+    },
+    {
+      "v": "V2",
+      "shownFor": [
+        "5+"
+      ],
+      "stored": "5+"
+    },
+    {
+      "v": "V3",
+      "shownFor": [
+        "6A",
+        "6A+"
+      ],
+      "stored": "6A"
+    },
+    {
+      "v": "V4",
+      "shownFor": [
+        "6B",
+        "6B+"
+      ],
+      "stored": "6B"
+    },
+    {
+      "v": "V5",
+      "shownFor": [
+        "6C",
+        "6C+"
+      ],
+      "stored": "6C"
+    },
+    {
+      "v": "V6",
+      "shownFor": [
+        "7A"
+      ],
+      "stored": "7A"
+    },
+    {
+      "v": "V7",
+      "shownFor": [
+        "7A+"
+      ],
+      "stored": "7A+"
+    },
+    {
+      "v": "V8",
+      "shownFor": [
+        "7B",
+        "7B+"
+      ],
+      "stored": "7B"
+    },
+    {
+      "v": "V9",
+      "shownFor": [
+        "7C"
+      ],
+      "stored": "7C"
+    },
+    {
+      "v": "V10",
+      "shownFor": [
+        "7C+"
+      ],
+      "stored": "7C+"
+    },
+    {
+      "v": "V11",
+      "shownFor": [
+        "8A"
+      ],
+      "stored": "8A"
+    },
+    {
+      "v": "V12",
+      "shownFor": [
+        "8A+"
+      ],
+      "stored": "8A+"
+    },
+    {
+      "v": "V13",
+      "shownFor": [
+        "8B"
+      ],
+      "stored": "8B"
+    },
+    {
+      "v": "V14",
+      "shownFor": [
+        "8B+"
+      ],
+      "stored": "8B+"
+    },
+    {
+      "v": "V15",
+      "shownFor": [
+        "8C"
+      ],
+      "stored": "8C"
+    },
+    {
+      "v": "V16",
+      "shownFor": [
+        "8C+"
+      ],
+      "stored": "8C+"
+    },
+    {
+      "v": "V17",
+      "shownFor": [
+        "9A"
+      ],
+      "stored": "9A"
+    }
+  ]
+}

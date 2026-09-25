@@ -1,0 +1,151 @@
+# 0x10-setLeds.request/message.bin: complete message incl. 5-byte header (PROTOCOL.md §4), 336 bytes
+# MTU 23: 20 bytes per packet, 17 packet(s) mtu23/000.bin to 016.bin
+# MTU 247: 244 bytes per packet, 2 packet(s) mtu247/000.bin to 001.bin
+#
+# offset: bytes  # meaning
+#
+# ---- packet mtu23/000.bin, mtu247/000.bin
+0000: 10                                               # type = 0x10 setLeds
+0001: 05                                               # id = 5
+0002: 01                                               # flags = 0x01: payload binary, kind request
+0003: 4b 01                                            # length = 331 (uint16 LE)
+0005: 0c 00                                            # settingsRevision = 12 (uint16 LE)
+0007: 00                                               # reserved = 0
+0008: 2a 00 00 00                                      # routeId = 42 = 0x0000002a (uint32 LE)
+000c: 00 00 00                                         # led   0  c0 r0   off
+000f: 00 00 00                                         # led   1  c1 r0   off
+0012: 00 00                                            # led   2  c2 r0   off
+# ---- packet mtu23/001.bin
+0014: 00
+0015: 00 00 00                                         # led   3  c3 r0   off
+0018: 00 00 00                                         # led   4  c4 r0   off
+001b: 00 00 00                                         # led   5  c5 r0   off
+001e: 00 00 00                                         # led   6  c6 r0   off
+0021: aa 00 ff                                         # led   7  c7 r0   #aa00ff finish
+0024: 00 00 00                                         # led   8  c8 r0   off
+0027: 00                                               # led   9  c9 r0   off
+# ---- packet mtu23/002.bin
+0028: 00 00
+002a: 00 00 00                                         # led  10  c10 r0  off
+002d: 00 00 00                                         # led  11  c11 r0  off
+0030: 00 00 00                                         # led  12  c11 r1  off
+0033: 00 00 00                                         # led  13  c10 r1  off
+0036: 00 00 00                                         # led  14  c9 r1   off
+0039: 00 00 00                                         # led  15  c8 r1   off
+# ---- packet mtu23/003.bin
+003c: 00 00 00                                         # led  16  c7 r1   off
+003f: 00 00 00                                         # led  17  c6 r1   off
+0042: 00 00 00                                         # led  18  c5 r1   off
+0045: 00 00 00                                         # led  19  c4 r1   off
+0048: 00 00 00                                         # led  20  c3 r1   off
+004b: 00 00 00                                         # led  21  c2 r1   off
+004e: 00 00                                            # led  22  c1 r1   off
+# ---- packet mtu23/004.bin
+0050: 00
+0051: 00 00 00                                         # led  23  c0 r1   off
+0054: 00 00 00                                         # led  24  c0 r2   off
+0057: 00 00 00                                         # led  25  c1 r2   off
+005a: 00 00 00                                         # led  26  c2 r2   off
+005d: 00 00 00                                         # led  27  c3 r2   off
+0060: 00 00 00                                         # led  28  c4 r2   off
+0063: 00                                               # led  29  c5 r2   off
+# ---- packet mtu23/005.bin
+0064: 00 00
+0066: 00 00 00                                         # led  30  c6 r2   off
+0069: 00 00 00                                         # led  31  c7 r2   off
+006c: 00 00 00                                         # led  32  c8 r2   off
+006f: 00 00 00                                         # led  33  c9 r2   off
+0072: 00 00 00                                         # led  34  c10 r2  off
+0075: 00 00 00                                         # led  35  c11 r2  off
+# ---- packet mtu23/006.bin
+0078: 00 00 00                                         # led  36  c11 r3  off
+007b: 00 00 00                                         # led  37  c10 r3  off
+007e: 00 00 00                                         # led  38  c9 r3   off
+0081: 00 00 00                                         # led  39  c8 r3   off
+0084: 00 00 00                                         # led  40  c7 r3   off
+0087: 00 00 00                                         # led  41  c6 r3   off
+008a: 00 00                                            # led  42  c5 r3   off
+# ---- packet mtu23/007.bin
+008c: 00
+008d: 00 00 00                                         # led  43  c4 r3   off
+0090: 00 00 00                                         # led  44  c3 r3   off
+0093: 00 00 00                                         # led  45  c2 r3   off
+0096: 00 00 00                                         # led  46  c1 r3   off
+0099: 00 00 00                                         # led  47  c0 r3   off
+009c: 00 00 00                                         # led  48  c0 r4   off
+009f: 00                                               # led  49  c1 r4   off
+# ---- packet mtu23/008.bin
+00a0: 00 00
+00a2: 00 00 00                                         # led  50  c2 r4   off
+00a5: 00 00 00                                         # led  51  c3 r4   off
+00a8: 00 00 00                                         # led  52  c4 r4   off
+00ab: 00 00 00                                         # led  53  c5 r4   off
+00ae: 00 00 00                                         # led  54  c6 r4   off
+00b1: 00 00 00                                         # led  55  c7 r4   off
+# ---- packet mtu23/009.bin
+00b4: 00 00 00                                         # led  56  c8 r4   off
+00b7: 00 00 00                                         # led  57  c9 r4   off
+00ba: 00 00 00                                         # led  58  c10 r4  off
+00bd: 00 00 00                                         # led  59  c11 r4  off
+00c0: 00 00 00                                         # led  60  c11 r5  off
+00c3: 00 00 00                                         # led  61  c10 r5  off
+00c6: 00 00                                            # led  62  c9 r5   off
+# ---- packet mtu23/010.bin
+00c8: 00
+00c9: 00 00 00                                         # led  63  c8 r5   off
+00cc: 00 00 00                                         # led  64  c7 r5   off
+00cf: 00 00 00                                         # led  65  c6 r5   off
+00d2: 00 00 00                                         # led  66  c5 r5   off
+00d5: 00 00 00                                         # led  67  c4 r5   off
+00d8: 00 00 00                                         # led  68  c3 r5   off
+00db: 00                                               # led  69  c2 r5   off
+# ---- packet mtu23/011.bin
+00dc: 00 00
+00de: 00 00 00                                         # led  70  c1 r5   off
+00e1: 00 00 00                                         # led  71  c0 r5   off
+00e4: 00 00 00                                         # led  72  c0 r6   off
+00e7: 00 00 00                                         # led  73  c1 r6   off
+00ea: 00 00 00                                         # led  74  c2 r6   off
+00ed: 00 00 00                                         # led  75  c3 r6   off
+# ---- packet mtu23/012.bin
+00f0: 00 00 00                                         # led  76  c4 r6   off
+00f3: 29                                               # led  77  c5 r6   #2962ff hand
+# ---- packet mtu247/001.bin
+00f4: 62 ff
+00f6: 00 00 00                                         # led  78  c6 r6   off
+00f9: 00 00 00                                         # led  79  c7 r6   off
+00fc: 00 00 00                                         # led  80  c8 r6   off
+00ff: 00 00 00                                         # led  81  c9 r6   off
+0102: 00 00                                            # led  82  c10 r6  off
+# ---- packet mtu23/013.bin
+0104: 00
+0105: 00 00 00                                         # led  83  c11 r6  off
+0108: 00 00 00                                         # led  84  c11 r7  off
+010b: 00 00 00                                         # led  85  c10 r7  off
+010e: 00 00 00                                         # led  86  c9 r7   off
+0111: 00 00 00                                         # led  87  c8 r7   off
+0114: 00 00 00                                         # led  88  c7 r7   off
+0117: 00                                               # led  89  c6 r7   off
+# ---- packet mtu23/014.bin
+0118: 00 00
+011a: 00 00 00                                         # led  90  c5 r7   off
+011d: 00 00 00                                         # led  91  c4 r7   off
+0120: 00 00 00                                         # led  92  c3 r7   off
+0123: 00 00 00                                         # led  93  c2 r7   off
+0126: 00 00 00                                         # led  94  c1 r7   off
+0129: 00 00 00                                         # led  95  c0 r7   off
+# ---- packet mtu23/015.bin
+012c: 00 00 00                                         # led  96  c0 r8   off
+012f: 00 00 00                                         # led  97  c1 r8   off
+0132: 00 00 00                                         # led  98  c2 r8   off
+0135: 00 c8 53                                         # led  99  c3 r8   #00c853 start
+0138: 00 00 00                                         # led 100  c4 r8   off
+013b: 00 00 00                                         # led 101  c5 r8   off
+013e: 00 00                                            # led 102  c6 r8   off
+# ---- packet mtu23/016.bin
+0140: 00
+0141: 00 00 00                                         # led 103  c7 r8   off
+0144: 00 00 00                                         # led 104  c8 r8   off
+0147: 00 00 00                                         # led 105  c9 r8   off
+014a: 00 00 00                                         # led 106  c10 r8  off
+014d: 00 00 00                                         # led 107  c11 r8  off
