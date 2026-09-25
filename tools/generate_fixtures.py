@@ -795,6 +795,18 @@ def utf8_bytes(s):
     return len(s.encode("utf-8"))
 
 
+def control_chars(s):
+    return {ch for ch in s if ord(ch) < 0x20 or 0x7F <= ord(ch) <= 0x9F}
+
+
+def u_escapes_ok(data):
+    """§3: \\u escapes only for control characters (an escaped backslash is no escape)."""
+    for m in re.finditer(rb"(\\+)u([0-9a-fA-F]{4})", data):
+        if len(m[1]) % 2 == 1 and not control_chars(chr(int(m[2], 16))):
+            return False
+    return True
+
+
 def route_problems(r, layout, board_route, allow_missing=()):
     """Limits of §10.1. board_route: routeId and rev present (else both absent)."""
     p = []
@@ -824,6 +836,9 @@ def route_problems(r, layout, board_route, allow_missing=()):
         p.append("feet")
     if "tags" in r and (len(r["tags"]) > 8 or any(utf8_bytes(t) > 24 for t in r["tags"])):
         p.append("tags")
+    texts = [r["name"], r.get("setter", "")] + r.get("tags", [])
+    if any(control_chars(t) for t in texts) or control_chars(r.get("description", "")) - {"\n"}:
+        p.append("control character in a text field")
     holds = r["holds"]
     if not 1 <= len(holds) <= MAX_ROUTE_HOLDS:
         p.append("hold count")
@@ -905,13 +920,16 @@ def run_checks(files):
             canonical = layout_file(obj) if rel.startswith("resources/layout") else json_file(obj)
             if data != canonical:
                 bad.append(rel + " (not in canonical 2-space form)")
+            if not u_escapes_ok(data):
+                bad.append(rel + " (\\u escape for a character that is no control character)")
             for path, v in walk(obj):
                 if isinstance(v, float):
                     bad.append(f"{rel}{path} (float)")
                 if v is None and not rel.startswith("resources/"):
                     bad.append(f"{rel}{path} (null)")
     ck.check("text files: UTF-8 without BOM, LF, one final newline, 2-space JSON, "
-             "no floats, null only in layouts", not bad, "; ".join(bad))
+             "\\u escapes only for control characters (§3), no floats, null only in layouts",
+             not bad, "; ".join(bad))
 
     # -- hex dumps round-trip --
     dumps = [rel for rel in disk if rel.endswith(".hexdump.txt")]
@@ -1249,9 +1267,21 @@ def run_checks(files):
     too_big = [rel for rel, d in requests.items() if len(d) > MAX_MESSAGE]
     ck.check("every request payload <= maxMessage 4096", not too_big,
              f"largest {max(len(d) for d in requests.values())} bytes")
-    worst = worst_case_update_route()
-    ck.check("maxMessage >= updateRoute with 64 holds and every field at its limit "
-             "(ASCII text, no JSON escapes)", worst <= MAX_MESSAGE, f"{worst} bytes")
+    for mixed in (False, True):
+        r = largest_route(mixed)
+        problems = [p for p in route_problems(r, lay_c, False)
+                    if p not in ("holdsRevision above the board's value",
+                                 "angle present, but angleAdjustable is false")]
+        text = "multi-byte characters, quotes, backslashes and line feeds" if mixed \
+            else "only characters that JSON encodes as 2 bytes (quote, line feed)"
+        save = len(json_wire({"token": INT_MAX, "ownerId": "f" * 16, "route": r}))
+        update = len(json_wire({"token": INT_MAX, "routeId": INT_MAX, "baseRev": INT_MAX,
+                                "route": r}))
+        ck.check(f"saveRoute and updateRoute with {MAX_ROUTE_HOLDS} holds and every field at its "
+                 f"limit, text of {text}, fit into maxMessage {MAX_MESSAGE} (§9.2)",
+                 not problems and max(save, update) <= MAX_MESSAGE,
+                 f"saveRoute {save} bytes, updateRoute {update} bytes"
+                 + (f"; {problems}" if problems else ""))
 
     # -- grades --
     grades = load("grades.json")
@@ -1266,14 +1296,41 @@ def run_checks(files):
     return ck
 
 
-def worst_case_update_route():
-    top = 0xFFFFFFFF
-    r = route("n" * 48, [(c % COLS, c // COLS, "finish") for c in range(MAX_ROUTE_HOLDS)],
-              top, top, top, grade="6A+", setter="s" * 32, description="d" * 280,
-              feet="marked", tags=["t" * 24] * 8)
+INT_MAX = 0xFFFFFFFF    # integers without a stated limit are taken at the uint32 maximum
+
+
+def fill(limit, sample=""):
+    """sample, then quotes up to exactly `limit` UTF-8 bytes."""
+    s = sample + '"' * (limit - utf8_bytes(sample))
+    assert utf8_bytes(s) == limit
+    return s
+
+
+def largest_route(mixed):
+    """A route with every field of §10.1 at its limit, on the reference wall.
+
+    Raw UTF-8 costs 1 byte per byte on the wire (§3); quote, backslash and line
+    feed cost 2; control characters are not allowed (§10.1). So text made only
+    of 2-byte characters (mixed=False) gives the largest possible message.
+    mixed=True mixes in multi-byte characters, backslashes and line feeds."""
+    digits = lambda p: len(str(p[0])) + len(str(p[1]))
+    cells = sorted(((c, r) for r in range(ROWS) for c in range(COLS)), key=lambda p: -digits(p))
+    role = max(ROLES, key=len)
+    if mixed:
+        name = fill(48, "Grüne Wand 😀 \\ ")
+        setter = fill(32, "Jörg ✓ \\ ")
+        description = fill(280, "Line one: ü, 😀, \\.\nLine two \"quoted\".\n")
+        tags = [fill(24, f"tag{n} ö😀\\") for n in range(8)]
+    else:
+        name, setter, tags = fill(48), fill(32), [fill(24)] * 8
+        description = '"\n' * 140
+    assert utf8_bytes(description) == 280
+    r = route(name, [(c, row, role) for c, row in cells[:MAX_ROUTE_HOLDS]],
+              INT_MAX, INT_MAX, INT_MAX, grade=max(FONT_GRADES, key=len), setter=setter,
+              description=description, feet=max(("marked", "kicker", "any"), key=len),
+              tags=tags)
     r["angle"] = 90
-    r = {k: r[k] for k in ROUTE_KEYS if k in r}
-    return len(json_wire({"token": top, "routeId": top, "baseRev": top, "route": r}))
+    return {k: r[k] for k in ROUTE_KEYS if k in r}
 
 
 def main():

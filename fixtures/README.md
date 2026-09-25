@@ -31,9 +31,9 @@ committed files. Tests read the files and never regenerate them.
 **JSON files**
 
 * UTF-8 without BOM, 2-space indentation, LF line endings, one final newline.
-* Non-ASCII characters are written as UTF-8, not as `\u` escapes. Route 58 is
-  named `"Grüne Leiste"` and its setter is `"Jörg"`, so byte limits (§3) are
-  exercised: an umlaut counts 2 bytes.
+* Strings are raw UTF-8; `\u` escapes appear only for control characters
+  (§3). Route 58 is named `"Grüne Leiste"` and its setter is `"Jörg"`, so byte
+  limits (§3) are exercised: an umlaut counts 2 bytes.
 * Key order follows PROTOCOL.md. A receiver must not depend on key order or
   whitespace. On the wire (`frames/`) the same JSON is sent compact: no
   whitespace, same key order.
@@ -422,13 +422,17 @@ The script checks, among other things:
     colours, and matches expectations written by hand.
 * **Routes:**
   * warnings match expectations written by hand;
-  * every route keeps the limits of §10.1.
+  * every route keeps the limits of §10.1, including no control characters in
+    text fields.
 * **Messages:**
   * `syncIndex` ordering and flags;
   * `getRoutes` against `maxBatch`;
   * `wallSeq` and the linked wall state;
   * error file names and code coverage.
 * **frames/:** headers and packet splitting.
-* **Sizes:** every request payload, and an `updateRoute` with every field at its
-  limit, against `maxMessage`.
+* **Sizes:** every request payload against `maxMessage`. The same holds for a
+  `saveRoute` and an `updateRoute` with `maxRouteHolds` holds and every field at
+  its limit. Their text is either only quotes and line feeds, which take 2 bytes
+  each on the wire (the largest possible message), or a mix of multi-byte
+  characters, quotes, backslashes and line feeds.
 * **grades.json:** against Appendix A.

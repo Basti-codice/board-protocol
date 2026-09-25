@@ -10,7 +10,8 @@ First version.
 
 ## 1.1 · 2026-09-25 · protocolVersion 1
 
-Fixtures added. `PROTOCOL.md` is unchanged.
+Fixtures added, plus clarifications in `PROTOCOL.md`. Nothing changes on the
+wire.
 
 * `fixtures/`: every file of the §12 tree, plus:
   * `errors/`, one example per V1 error code not covered by the tree;
@@ -19,4 +20,15 @@ Fixtures added. `PROTOCOL.md` is unchanged.
   * `fixtures/README.md`, which describes every fixture family.
 * `tools/generate_fixtures.py` generates and checks all fixtures (Python 3,
   standard library only).
-* `.gitattributes`: LF for text, `*.bin` binary.
+* `.gitattributes`: LF for text, `*.bin` binary. `.gitignore`: `__pycache__/`.
+
+Clarifications in `PROTOCOL.md`:
+
+* §3: strings are sent as raw UTF-8; `\u` escapes are used only for control
+  characters.
+* §10.1: route text fields contain no control characters, except line feed in
+  `description`.
+* §12: the fixture tree shows the actual state, including `errors/`,
+  `layout.holdRemoved.json`, the photos, `fixtures/README.md` and `tools/`.
+* Appendix B: the row on `fixtures/` is removed. The `maxMessage` row now gives
+  the size of the largest possible route message, about 3 350 bytes.

@@ -204,6 +204,8 @@ header costs nothing and gives both.
   sets timestamps, the board stores and returns them unchanged.
 * String limits are given in **UTF-8 bytes**, not characters. An umlaut takes
   2 bytes, an emoji 4.
+* Strings are sent as raw UTF-8; `\u` escapes are used only for control
+  characters.
 * SHA-256 hashes are 64 lowercase hex characters.
 * `boardId` and `storageId` are 4 random bytes, written as 8 lowercase hex
   characters in byte order (for example `"a4cf128e"`).
@@ -1400,6 +1402,9 @@ treated like any other abort.
 
 The example's `foot` hold at row 10 sits in a foothold row without LEDs (§5.2).
 
+Route text fields (`name`, `setter`, `description`, `tags`) contain no control
+characters, except line feed in `description`.
+
 **`feet`**: which footholds may be used.
 
 | Value | Meaning |
@@ -1496,6 +1501,7 @@ code:
 
 ```
 fixtures/
+  README.md                             format of every fixture family
   scan/
     scanResponse.bin                    manufacturer data (§2.3)
     scanResponse.hexdump.txt
@@ -1534,15 +1540,23 @@ fixtures/
   0x31-xferChunk.event.hexdump.txt
   0x32-xferEnd.event.json
   0x33-xferAbort.event.json
+  errors/                               one error per V1 code not covered above,
+                                        0xTT-<message>.<code>-<name>.error.json
   resources/
-    layout.json                         reference wall
-    layout.holdChanges.json             same wall after a hold change
+    layout.json                         reference wall before any hold change
+    layout.holdChanges.json             same wall after hold changes (holdsRevision 5);
+                                        the layout resource of getSettings
+    layout.holdRemoved.json             same wall with one hold removed
+    photoPreview.png                    32 × 39 px
+    photo.png                           160 × 196 px
   derived/
     route-to-frame/                     route + layout + roles → expected setLeds payload
     route-warnings/                     route + layout → expected outdated / missing holds
   frames/                               complete messages incl. 5-byte header,
                                         split into packets for MTU 23 and MTU 247
   grades.json                           Appendix A as data
+tools/
+  generate_fixtures.py                  generates fixtures/ and checks it
 ```
 
 `derived/` covers what is computed from protocol data. It keeps every
@@ -1595,8 +1609,7 @@ not.
 
 | Point | Why open |
 |---|---|
-| `fixtures/` | Not generated yet. Generating them from this document is the first implementation step, before any app or controller code that is tested against them (§12). |
 | Route change time | How long a route change takes on nearly full storage, including the token (§8.5), has to be measured. It must stay below the 10 s of §8.4. |
-| `maxMessage = 4096` in the examples | Has to be checked against the real memory use of JSON handling on the controller. |
+| `maxMessage = 4096` in the examples | Has to be checked against the real memory use of JSON handling on the controller. According to the fixtures, the largest possible route message is about 3 350 bytes: `saveRoute` or `updateRoute` with `maxRouteHolds` holds and every field at its limit, as compact JSON (`tools/generate_fixtures.py`). |
 | Download speed | A full photo of about 300 KB has to be measured on real hardware. If it is too slow: `bulkChannel` (§11). |
 | `companyId` | `0xFFFF` is a placeholder until a registered company ID exists. Changing it only affects the optional scan data (§2.3). |
